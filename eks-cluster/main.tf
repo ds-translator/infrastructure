@@ -14,10 +14,14 @@ output "selected_azs" {
 }
 
 module "vpc" {
-  source      = "./modules/vpc"
-  azs         = local.selected_azs
-  environment = var.environment
-  name        = "dst-vpc-${var.environment}"
+  source          = "./modules/vpc"
+  azs             = local.selected_azs
+  environment     = var.environment
+  project_name     = var.project_name
+  name            = "dst-vpc-${var.environment}"
+  cidr            = var.cidr
+  private_subnets = var.private_subnets
+  public_subnets  = var.public_subnets
 }
 
 module "eks" {
@@ -26,6 +30,7 @@ module "eks" {
   private_subnets = module.vpc.private_subnets
   vpc_id          = module.vpc.vpc_id
   environment     = var.environment
+  project_name     = var.project_name
 
 }
 

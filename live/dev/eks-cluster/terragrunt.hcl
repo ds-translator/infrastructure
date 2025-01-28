@@ -8,6 +8,7 @@ terraform {
 }
 
 inputs = {
+  project_name = "datascientest-translator"
   environment = "dev"
   node_count = 3
   cidr = "10.30.0.0/16"
