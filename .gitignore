@@ -15,3 +15,4 @@ terragrunt
 .DS_Store
 mocks/
 .go-version
+ec2-instance
