@@ -1,6 +1,7 @@
 inputs = {
   project_name = "datascientest-translator"
-  env = regex(".*/live/(?P<env>.*?)/.*", get_terragrunt_dir()).env
+  project_id = "dst"
+  environment = regex(".*/live/(?P<env>.*?)/.*", get_terragrunt_dir()).env
   # env    = local.parsed.env
   # bucket_name  = "${local.project_name}-terraform"
   region = "eu-central-1"

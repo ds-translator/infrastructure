@@ -3,15 +3,23 @@ include {
   path = find_in_parent_folders("root.hcl")
 }
 
+
+dependency "networking" {
+  # Adjust the path according to your directory structure.
+  config_path = "../networking"
+}
+
 terraform {
-  source = "../../../eks-cluster"
+  source = "../../../modules/eks-cluster"
 }
 
 inputs = {
-  project_name = "datascientest-translator"
-  environment = "dev"
-  node_count = 3
-  cidr = "10.30.0.0/16"
-  private_subnets = ["10.30.32.0/20", "10.30.48.0/20"]
-  public_subnets  = ["10.30.0.0/20", "10.30.16.0/20"]
+  # project_name       = "my-eks-project"
+  # environment        = include.root.locals.env       # If defined at your root Terragrunt config
+  # cluster_name       = "${include.root.inputs.project_id}"
+  # -${include.root.inputs.environment}-eks-cluster"
+
+  # cluster_role_arn   = "arn:aws:iam::123456789012:role/eksClusterRole"  # Replace with your role ARN
+  subnet_ids         = dependency.networking.outputs.private_subnets  # Assuming you get these from a VPC module dependency
+  kubernetes_version = "1.32"
 }
