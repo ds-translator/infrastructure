@@ -16,3 +16,4 @@ terragrunt
 mocks/
 .go-version
 /ec2-instance/
+/eks-cluster/
