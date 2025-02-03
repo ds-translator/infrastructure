@@ -3,15 +3,15 @@ variable "cluster_name" {
   type        = string
 }
 
-# variable "node_group_name" {
-#   description = "The name of the EKS node group."
-#   type        = string
-# }
+variable "node_group_name" {
+  description = "The name of the EKS node group."
+  type        = string
+}
 
-# variable "node_role_arn" {
-#   description = "The ARN of the IAM role for the node group."
-#   type        = string
-# }
+variable "node_role_arn" {
+  description = "The ARN of the IAM role for the node group."
+  type        = string
+}
 
 variable "subnet_ids" {
   description = "The list of subnet IDs for the node group."

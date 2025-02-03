@@ -38,7 +38,7 @@ resource "aws_eks_cluster" "this" {
   vpc_config {
     subnet_ids              = var.subnet_ids
     endpoint_public_access  = true
-    endpoint_private_access = false
+    endpoint_private_access = true
   }
 
   version = var.kubernetes_version
