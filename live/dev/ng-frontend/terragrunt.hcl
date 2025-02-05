@@ -29,8 +29,8 @@ inputs = {
   max_size         = 3
   instance_types   = ["t3.medium"]
   disk_size        = 20
-  ec2_ssh_key      = ""                # Provide your EC2 SSH key name if you need SSH access
-  source_security_group_ids = []        # Provide SG IDs if SSH access is configured
+  ec2_ssh_key      = ""                
+  source_security_group_ids = []        
   max_unavailable  = 1
 
 }
