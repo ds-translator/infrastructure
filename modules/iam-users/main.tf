@@ -5,12 +5,17 @@ resource "aws_iam_group" "devops_engineers" {
 }
 
 # Create IAM Users
+
 resource "aws_iam_user" "janod" {
   name = "janod"
 }
 
 resource "aws_iam_user" "julian" {
   name = "julian"
+}
+
+resource "aws_iam_user" "loay" {
+  name = "loay"
 }
 
 resource "aws_iam_user" "patrick" {
@@ -25,6 +30,7 @@ resource "aws_iam_group_membership" "devops_group_membership" {
   users = [
     aws_iam_user.janod.name,
     aws_iam_user.julian.name,
+    aws_iam_user.loay.name,
     aws_iam_user.patrick.name
   ]
 }
