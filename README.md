@@ -6,9 +6,7 @@ We use Terragrunt to deploy DRY to dev-, prod- and stage-environments.
 
 How to use:
 
-    cd live/dev
-    terragrunt plan
-    terragrunt apply --auto-approve
-    
+1. Apply the creation of DevOps-group and users and IAM role for cluster administration.
+2. Apply the infrastructure in dev/stage/prod
 
 
