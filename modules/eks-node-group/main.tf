@@ -1,5 +1,4 @@
 
-
 resource "aws_eks_node_group" "this" {
   cluster_name    = var.cluster_name
   node_group_name = "${var.project_id}-${var.environment}-eks-ng-${var.node_group_name}"
@@ -12,8 +11,13 @@ resource "aws_eks_node_group" "this" {
     max_size     = var.max_size
   }
 
+  launch_template {
+    id      = var.launch_template_id
+    version = "$Latest" 
+  }
+
   instance_types = var.instance_types
-  disk_size      = var.disk_size
+  # disk_size      = var.disk_size
 
   # (Optional) Enable remote access for SSH into worker nodes.
 #   dynamic "remote_access" {

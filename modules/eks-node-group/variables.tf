@@ -87,3 +87,8 @@ variable "extra_tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "launch_template_id" {
+  description = "The id of the launch template for the node group."
+  type        = string
+}

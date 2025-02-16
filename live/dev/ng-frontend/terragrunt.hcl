@@ -2,6 +2,10 @@ include {
   path = find_in_parent_folders("root.hcl")
 }
 
+dependency "ec2_templates" {
+  config_path = "../../global/ec2-templates"
+}
+
 dependency "security" {
   config_path = "../security"
 }
@@ -32,5 +36,7 @@ inputs = {
   ec2_ssh_key      = ""                
   source_security_group_ids = []        
   max_unavailable  = 1
+
+  launch_template_id = dependency.ec2_templates.outputs.launch_template_id
 
 }
