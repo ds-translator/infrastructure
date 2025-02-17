@@ -4,7 +4,7 @@ include {
 
 
 terraform {
-  source = "../../../modules/security"
+  source = "../../../modules/security///"
 }
 
 inputs = {

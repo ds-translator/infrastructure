@@ -14,7 +14,7 @@ dependency "networking" {
 }
 
 terraform {
-  source = "../../../modules/eks-cluster"
+  source = "../../../modules/eks-cluster///"
 }
 
 inputs = {

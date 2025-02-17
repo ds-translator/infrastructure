@@ -3,7 +3,7 @@ include {
 }
 
 terraform {
-  source = "../../../modules/launch-templates"
+  source = "../../../modules/launch-templates///"
 }
 
 # inputs = {
