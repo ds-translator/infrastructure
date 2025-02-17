@@ -10,11 +10,11 @@ output "aws_region" {
 }
 
 resource "aws_iam_role" "terraform_execution_role" {
-  name = "TerraformExecutionRole"
+  name = "dst-TerraformExecutionRole"
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -31,12 +31,12 @@ resource "aws_iam_role" "terraform_execution_role" {
 }
 
 resource "aws_iam_policy" "terraform_least_privilege_policy" {
-  name        = "TerraformLeastPrivilegePolicy"
+  name        = "dst-TerraformLeastPrivilegePolicy"
   description = "Provides only the required permissions for Terraform execution"
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -50,8 +50,8 @@ resource "aws_iam_policy" "terraform_least_privilege_policy" {
           "s3:DeleteObject"
         ],
         "Resource": [
-          "arn:aws:s3:::terraform-state-*",
-          "arn:aws:s3:::terraform-state-*/*"
+          "arn:aws:s3:::dst-terraform-state-*",
+          "arn:aws:s3:::dst-terraform-state-*/*"
         ]
       },
 
@@ -65,7 +65,7 @@ resource "aws_iam_policy" "terraform_least_privilege_policy" {
           "dynamodb:Query",
           "dynamodb:UpdateItem"
         ],
-        "Resource": "arn:aws:dynamodb:${var.region}:${data.aws_caller_identity.current.account_id}:table/terraform-locks-*"
+        "Resource": "arn:aws:dynamodb:${var.region}:${data.aws_caller_identity.current.account_id}:table/dst-terraform-locks-*"
       },
 
       {
@@ -90,7 +90,7 @@ resource "aws_iam_policy" "terraform_least_privilege_policy" {
           "iam:DetachRolePolicy",
           "iam:PassRole"
         ],
-        "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/TerraformExecutionRole"
+        "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/dst-TerraformExecutionRole"
       },
 
       {
@@ -112,7 +112,7 @@ resource "aws_iam_policy" "terraform_least_privilege_policy" {
       {
         "Effect": "Allow",
         "Action": "sts:AssumeRole",
-        "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/TerraformExecutionRole"
+        "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/dst-TerraformExecutionRole"
       }
     ]
   })
@@ -125,12 +125,12 @@ resource "aws_iam_role_policy_attachment" "terraform_policy_attachment" {
 
 
 resource "aws_iam_policy" "assume_terraform_role_policy" {
-  name        = "AssumeTerraformRolePolicy"
-  description = "Allows IAM users in devops-engineers group to assume TerraformExecutionRole"
+  name        = "dst-AssumeTerraformRolePolicy"
+  description = "Allows IAM users in this group to assume TerraformExecutionRole"
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -143,7 +143,7 @@ resource "aws_iam_policy" "assume_terraform_role_policy" {
 }
 
 resource "aws_iam_group_policy_attachment" "terraform_assume_role_policy" {
-  group      = "devops-engineers"
+  group      = var.group_name
   policy_arn = aws_iam_policy.assume_terraform_role_policy.arn
 }
 

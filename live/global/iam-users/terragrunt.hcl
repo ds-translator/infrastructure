@@ -6,11 +6,9 @@ include {
 terraform {
   source = "../../../modules/iam-users"
 }
-locals {
-  # environment_vars = read_terragrunt_config(find_in_parent_folders("root.hcl"))
-}
+
 
 inputs = {
-  # project_name = local.project_name
-  # environment = local.environment_vars.locals.env 
+  group_name = "dst-terraform-users"
+  users      = ["dst-janod", "dst-julian", "dst-loay", "dst-patrick", "dst-github"]
 }

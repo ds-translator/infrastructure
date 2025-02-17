@@ -18,3 +18,8 @@ variable "environment" {
   type        = string
 }
 
+
+variable "group_name" {
+  description = "The group name"
+  type        = string
+}

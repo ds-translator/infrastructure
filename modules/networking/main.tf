@@ -25,7 +25,6 @@ resource "aws_vpc" "main" {
     Name        = "${var.project_id}-${var.environment}-vpc"
     Environment = var.environment
     Project     = var.project_name
-    "kubernetes.io/role/elb" = 1
   }
 }
 
@@ -50,6 +49,8 @@ resource "aws_subnet" "public" {
   tags = {
     Name        = "${var.project_id}-${var.environment}-public-subnet-${count.index + 1}"
     Environment = var.environment
+    "kubernetes.io/role/elb" = 1
+    "kubernetes.io/cluster/${var.project_id}-${var.environment}-cluster" = "owned"
   }
 }
 

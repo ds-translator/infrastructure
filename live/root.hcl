@@ -4,7 +4,7 @@ inputs = {
   environment = regex(".*/live/(?P<env>.*?)/.*", get_terragrunt_dir()).env
   # env    = local.parsed.env
   # bucket_name  = "${local.project_name}-terraform"
-  region = "eu-central-1"
+  region = "us-east-1"
 }
 
 locals {
@@ -13,10 +13,10 @@ locals {
 remote_state {
   backend = "s3"
   config = {
-    bucket = "terraform-state-datascientest-translator"
-    region = "eu-central-1"
+    bucket = "dst-terraform-state-2"
+    region = "us-east-1"
     key    = "${path_relative_to_include()}/terraform.tfstate"
-    dynamodb_table = "terraform-locks"
+    dynamodb_table = "dst-terraform-locks"
   }
   generate = {
     path      = "backend.tf"

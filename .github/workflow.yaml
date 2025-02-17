@@ -23,7 +23,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-central-1
+          aws-region: us-east-1
 
       # Step 3: Setup Terraform (required by Terragrunt)
       - name: Setup Terraform
@@ -61,11 +61,11 @@ jobs:
           BRANCH="${GITHUB_REF##*/}"
           echo "Current branch: $BRANCH"
           if [ "$BRANCH" == "develop" ]; then
-            ENV_DIR="dev"
+            ENV_DIR="live/dev"
           elif [ "$BRANCH" == "release" ]; then
-            ENV_DIR="stage"
+            ENV_DIR="live/stage"
           elif [ "$BRANCH" == "main" ]; then
-            ENV_DIR="prod"
+            ENV_DIR="live/prod"
           else
             echo "Unsupported branch: $BRANCH"
             exit 1
