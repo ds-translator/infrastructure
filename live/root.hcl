@@ -18,6 +18,7 @@ remote_state {
     key    = "${path_relative_to_include()}/terraform.tfstate"
     dynamodb_table = "dst-terraform-locks"
     encrypt = true    
+    skip_bucket_creation = true
   }
   generate = {
     path      = "backend.tf"
