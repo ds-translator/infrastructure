@@ -10,8 +10,10 @@ How to use:
 2. Apply the infrastructure in dev/stage/prod
 
 To view the changes run:
+`cd ./live/dev`
 `terragrunt plan --terragrunt-exclude-dir=alb`
 The `alb`-module requires an existing kubernetes cluster, so it will fail during plan.
 
 To apply all modules run:
-`terragrunt apply --auto-approve`
+`cd ./live/dev`
+`terragrunt run-all apply --auto-approve`
