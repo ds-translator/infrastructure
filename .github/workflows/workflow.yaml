@@ -78,8 +78,8 @@ jobs:
         working-directory: ${{ steps.set-dir.outputs.env_dir }}
         run: |
           ls -al
-          terragrunt run-all init --non-interactive
-          terragrunt run-all plan
+          terragrunt run-all init --terragrunt-non-interactive
+          terragrunt run-all plan --terragrunt-non-interactive
 
       # Step 7: Apply all changes automatically (only on the main branch)
       - name: Terragrunt Apply (Recursive - Prod Only)
