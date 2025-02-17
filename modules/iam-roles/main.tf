@@ -64,7 +64,11 @@ resource "aws_iam_policy" "terraform_least_privilege_policy" {
           "arn:aws:s3:::dst-terraform-state-*/*"
         ]
       },
-
+      {
+        "Action": "s3:CreateBucket",
+        "Effect": "Allow",
+        "Resource": "*"
+      },
       {
         "Effect": "Allow",
         "Action": [
