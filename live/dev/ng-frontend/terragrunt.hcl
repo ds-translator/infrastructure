@@ -31,7 +31,7 @@ dependency "eks_cluster" {
 }
 
 terraform {
-  source = "../../../modules/eks-node-group//"
+  source = "../../../modules/eks-node-group"
 }
 
 inputs = {

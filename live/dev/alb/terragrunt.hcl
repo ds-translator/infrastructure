@@ -29,7 +29,7 @@ dependency "eks-cluster" {
 }
 
 terraform {
-  source = "../../../modules/alb//"
+  source = "../../../modules/alb"
 }
 
 inputs = {
