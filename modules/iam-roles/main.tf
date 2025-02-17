@@ -44,10 +44,20 @@ resource "aws_iam_policy" "terraform_least_privilege_policy" {
       {
         "Effect": "Allow",
         "Action": [
-          "s3:ListBucket",
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:DeleteObject"
+            "s3:ListBucket",
+            "s3:GetObject",
+            "s3:PutObject",
+            "s3:DeleteObject",
+            "s3:CreateBucket",
+            "s3:ListBucket",
+            "s3:GetBucketLocation",
+            "s3:GetBucketPolicy",
+            "s3:PutBucketPolicy",
+            "s3:PutBucketTagging",
+            "s3:PutBucketVersioning",
+            "s3:GetBucketVersioning",
+            "s3:GetEncryptionConfiguration",
+            "s3:GetBucketPublicAccessBlock"
         ],
         "Resource": [
           "arn:aws:s3:::dst-terraform-state-*",
