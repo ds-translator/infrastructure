@@ -25,6 +25,7 @@ resource "aws_vpc" "main" {
     Name        = "${var.project_id}-${var.environment}-vpc"
     Environment = var.environment
     Project     = var.project_name
+    "kubernetes.io/role/elb" = 1
   }
 }
 

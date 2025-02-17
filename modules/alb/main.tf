@@ -68,10 +68,10 @@ provider "helm" {
 #      value = var.vpc_id
 #  }
 
-#  set {
-#      name  = "image.repository"
-#      value = "602401143452.dkr.ecr.${var.region}.amazonaws.com/amazon/aws-load-balancer-controller"
-#  }
+# #  set {
+# #      name  = "image.repository"
+# #      value = "602401143452.dkr.ecr.${var.region}.amazonaws.com/amazon/aws-load-balancer-controller"
+# #  }
 
 #  set {
 #      name  = "serviceAccount.create"
