@@ -9,4 +9,9 @@ How to use:
 1. Apply the creation of DevOps-group and users and IAM role for cluster administration.
 2. Apply the infrastructure in dev/stage/prod
 
+To view the changes run:
+`terragrunt plan --terragrunt-exclude-dir=alb`
+The `alb`-module requires an existing kubernetes cluster, so it will fail during plan.
 
+To apply all modules run:
+`terragrunt apply --auto-approve`

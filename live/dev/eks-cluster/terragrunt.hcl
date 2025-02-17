@@ -7,6 +7,10 @@ include {
 dependency "networking" {
   # Adjust the path according to your directory structure.
   config_path = "../networking"
+
+  mock_outputs = {
+    private_subnets = ["subnet-12345678", "subnet-87654321"]
+  }  
 }
 
 terraform {

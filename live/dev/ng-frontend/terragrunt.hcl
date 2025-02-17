@@ -2,8 +2,12 @@ include {
   path = find_in_parent_folders("root.hcl")
 }
 
-dependency "ec2_templates" {
-  config_path = "../../global/ec2-templates"
+dependency "launch_templates" {
+  config_path = "../launch-templates"
+
+  mock_outputs = {
+    launch_template_id = "lt-23jk1091"
+  }
 }
 
 dependency "security" {
@@ -12,10 +16,18 @@ dependency "security" {
 
 dependency "networking" {
   config_path = "../networking"
+
+  mock_outputs = {
+    private_subnets = ["subnet-12345678", "subnet-87654321"]
+  }    
 }
 
 dependency "eks_cluster" {
   config_path = "../eks-cluster"
+
+  mock_outputs = {
+    cluster_name = "dst-dev-cluster"
+  }
 }
 
 terraform {
@@ -37,6 +49,6 @@ inputs = {
   source_security_group_ids = []        
   max_unavailable  = 1
 
-  launch_template_id = dependency.ec2_templates.outputs.launch_template_id
+  launch_template_id = dependency.launch_templates.outputs.launch_template_id
 
 }
