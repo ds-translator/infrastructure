@@ -32,7 +32,7 @@ resource "aws_iam_role_policy_attachment" "eks_service_policy" {
 
 
 resource "aws_eks_cluster" "this" {
-  name     = "${var.project_id}-${var.environment}-eks-cluster"
+  name     = "${var.project_id}-${var.environment}-cluster"
   role_arn = aws_iam_role.eks_cluster_role.arn
 
   vpc_config {
