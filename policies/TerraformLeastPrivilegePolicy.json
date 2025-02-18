@@ -59,7 +59,8 @@
             "Action": [
                 "s3:GetObject",
                 "s3:GetObjectVersion",
-                "s3:ListMultipartUploadParts"
+                "s3:ListMultipartUploadParts",
+                "s3:PutObject"
             ],
             "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/networking/terraform.tfstate"
         },
