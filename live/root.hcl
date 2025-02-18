@@ -13,11 +13,14 @@ locals {
 remote_state {
   backend = "s3"
   config = {
-    bucket = "dst-terraform-state"
+    # dst-terraform-state is deleted but throws errors
+    bucket = "dst-terraform-state-3"
     region = "us-east-1"
     key    = "${path_relative_to_include()}/terraform.tfstate"
     dynamodb_table = "dst-terraform-locks"
     encrypt = true    
+    # does not matter
+    # skip_region_validation = true
   }
   generate = {
     path      = "backend.tf"

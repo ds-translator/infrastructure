@@ -1,0 +1,298 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sts:GetCallerIdentity",
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeVpcs",
+                "ec2:DescribeLaunchTemplates",
+                "ec2:DescribeLaunchTemplateVersions",
+                "ec2:DescribeNetworkAcls",
+                "ec2:DescribeRouteTables",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeInternetGateways",
+                "ec2:DescribeAddresses",
+                "ec2:DescribeAddressesAttribute",
+                "ec2:DescribeNatGateways",
+                "eks:CreateCluster",
+                "iam:GetOpenIDConnectProvider",
+                "iam:PassRole",
+                "iam:GetPolicy",
+                "iam:GetPolicyVersion"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketVersioning",
+                "s3:GetEncryptionConfiguration",
+                "s3:GetBucketPolicy",
+                "s3:GetBucketPublicAccessBlock"
+            ],
+            "Resource": "arn:aws:s3:::dst-terraform-state-3"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:DescribeTable",
+                "dynamodb:PutItem",
+                "dynamodb:GetItem",
+                "dynamodb:DeleteItem"
+            ],
+            "Resource": "arn:aws:dynamodb:us-east-1:707809188586:table/dst-terraform-locks"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/launch-templates/terraform.tfstate"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:ListMultipartUploadParts"
+            ],
+            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/networking/terraform.tfstate"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/security/terraform.tfstate"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateVpc",
+                "ec2:ModifyVpcAttribute",
+                "ec2:DescribeVpcAttribute"
+            ],
+            "Resource": "arn:aws:ec2:us-east-1:707809188586:vpc/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateLaunchTemplate"
+            ],
+            "Resource": "arn:aws:ec2:us-east-1:707809188586:launch-template/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateRole",
+                "iam:GetRole",
+                "iam:ListRolePolicies",
+                "iam:ListAttachedRolePolicies",
+                "iam:AttachRolePolicy"
+            ],
+            "Resource": "arn:aws:iam::707809188586:role/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateSubnet"
+            ],
+            "Resource": [
+                "arn:aws:ec2:us-east-1:707809188586:subnet/*",
+                "arn:aws:ec2:us-east-1:707809188586:vpc/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateInternetGateway"
+            ],
+            "Resource": "arn:aws:ec2:us-east-1:707809188586:internet-gateway/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:AttachInternetGateway"
+            ],
+            "Resource": [
+                "arn:aws:ec2:us-east-1:707809188586:internet-gateway/*",
+                "arn:aws:ec2:us-east-1:707809188586:vpc/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:ModifySubnetAttribute"
+            ],
+            "Resource": "arn:aws:ec2:us-east-1:707809188586:subnet/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateRouteTable"
+            ],
+            "Resource": [
+                "arn:aws:ec2:us-east-1:707809188586:route-table/*",
+                "arn:aws:ec2:us-east-1:707809188586:vpc/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateRoute",
+                "ec2:AssociateRouteTable"
+            ],
+            "Resource": "arn:aws:ec2:us-east-1:707809188586:route-table/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:AllocateAddress"
+            ],
+            "Resource": "arn:aws:ec2:us-east-1:707809188586:elastic-ip/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateNatGateway"
+            ],
+            "Resource": [
+                "arn:aws:ec2:us-east-1:707809188586:natgateway/*",
+                "arn:aws:ec2:us-east-1:707809188586:subnet/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:ListMultipartUploadParts",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/eks-cluster/terraform.tfstate"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:PassRole"
+            ],
+            "Resource": "arn:aws:iam::707809188586:role/dst-dev-eks-role"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:DescribeCluster",
+                "eks:CreateAccessEntry",
+                "eks:DeleteCluster",
+                "eks:TagResource"
+            ],
+            "Resource": "arn:aws:eks:us-east-1:707809188586:cluster/dst-dev-cluster"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateOpenIDConnectProvider",
+                "iam:DeleteOpenIDConnectProvider"
+            ],
+            "Resource": "arn:aws:iam::707809188586:oidc-provider/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+				"s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/ng-frontend/terraform.tfstate"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+				"s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/ng-gpu/terraform.tfstate"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:CreateNodegroup",
+                "eks:DeleteNodegroup"
+            ],
+            "Resource": "arn:aws:eks:us-east-1:707809188586:cluster/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:PassRole"
+            ],
+            "Resource": "arn:aws:iam::707809188586:role/dst-dev-eks-ng-role"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:DescribeNodegroup",
+                "eks:DeleteNodegroup"
+            ],
+            "Resource": "arn:aws:eks:us-east-1:707809188586:nodegroup/*/dst-dev-eks-ng-frontend/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:DescribeNodegroup",
+                "eks:DeleteNodegroup"
+            ],
+            "Resource": "arn:aws:eks:us-east-1:707809188586:nodegroup/*/dst-dev-eks-ng-gpu/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/alb/terraform.tfstate"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreatePolicy"
+            ],
+            "Resource": "arn:aws:iam::707809188586:policy/*"
+        },
+        {
+            "Sid": "AllowDescribeAccessEntry",
+            "Effect": "Allow",
+            "Action": [
+                "eks:DescribeAccessEntry",
+                "eks:DeleteAccessEntry"
+            ],
+            "Resource": "arn:aws:eks:us-east-1:707809188586:access-entry/dst-dev-cluster/user/707809188586/dst-github/*"
+        },
+        {
+            "Sid": "AllowLaunchInstancesWithTemplate",
+            "Effect": "Allow",
+            "Action": [
+              "ec2:RunInstances",
+              "ec2:DescribeLaunchTemplateVersions",
+              "ec2:CreateTags"
+            ],
+            "Resource": [
+              "arn:aws:ec2:us-east-1:707809188586:launch-template/*",
+              "arn:aws:ec2:us-east-1:707809188586:launch-template/*/*"
+            ]
+        },
+        {
+            "Sid": "EC2FullAccess",
+            "Effect": "Allow",
+            "Action": "ec2:*",
+            "Resource": "*"
+        }
+    ]
+}

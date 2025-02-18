@@ -78,11 +78,18 @@ jobs:
         working-directory: ${{ steps.set-dir.outputs.env_dir }}
         run: |
           ls -al
-          terragrunt run-all init -reconfigure --terragrunt-non-interactive
-          terragrunt run-all plan --terragrunt-non-interactive
+          export NO_PROXY=oidc.eks.us-east-1.amazonaws.com
+          terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+          terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
 
+          cd alb
+          terragrunt init -reconfigure -auto-approve --terragrunt-non-interactive 
+          terragrunt plan -auto-approve --terragrunt-non-interactive 
       # Step 7: Apply all changes automatically (only on the main branch)
       - name: Terragrunt Apply (Recursive - Prod Only)
         if: ${{ github.ref == 'refs/heads/main' }}
         working-directory: ${{ steps.set-dir.outputs.env_dir }}
-        run: terragrunt run-all apply -auto-approve
+        run: |
+          terragrunt run-all apply -auto-approve --terragrunt-non-interactive  --terragrunt-exclude-dir=alb
+          cd alb
+          terragrunt apply -auto-approve --terragrunt-non-interactive

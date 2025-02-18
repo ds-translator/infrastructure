@@ -43,6 +43,10 @@ resource "aws_eks_cluster" "this" {
 
   version = var.kubernetes_version
 
+  access_config {
+      authentication_mode                         = "API_AND_CONFIG_MAP"
+    }  
+
   tags = {
     Environment = var.environment
     Project     = var.project_name
@@ -81,6 +85,12 @@ data "aws_eks_cluster_auth" "cluster" {
   name = aws_eks_cluster.this.name
 }
 
+resource "aws_eks_access_entry" "example" {
+  cluster_name      = aws_eks_cluster.this.name
+  principal_arn     = "arn:aws:iam::707809188586:user/dst-github"
+  kubernetes_groups = ["system:masters"]
+  type              = "STANDARD"
+}
 
 
 

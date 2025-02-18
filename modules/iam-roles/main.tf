@@ -51,8 +51,8 @@ resource "aws_iam_policy" "terraform_least_privilege_policy" {
                 "s3:GetBucketPublicAccessBlock"
             ],
         "Resource": [
-          "arn:aws:s3:::dst-terraform-state",
-          "arn:aws:s3:::dst-terraform-state-*/*"
+          "arn:aws:s3:::dst-terraform-state-2",
+          "arn:aws:s3:::dst-terraform-state-2/*"
         ]
       },
       {
@@ -66,7 +66,7 @@ resource "aws_iam_policy" "terraform_least_privilege_policy" {
                 "s3:GetObject",
                 "s3:GetObjectVersion"
             ],
-            "Resource": "arn:aws:s3:::dst-terraform-state/*"
+            "Resource": "arn:aws:s3:::dst-terraform-state-2/*"
         },      
       {
         "Effect": "Allow",
