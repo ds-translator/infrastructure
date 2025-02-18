@@ -11,9 +11,11 @@ How to use:
 
 To view the changes run:
 `cd ./live/dev`
-`terragrunt plan --terragrunt-exclude-dir=alb`
+`terragrunt run-all plan --terragrunt-exclude-dir=alb`
 The `alb`-module requires an existing kubernetes cluster, so it will fail during plan.
 
 To apply all modules run:
 `cd ./live/dev`
 `terragrunt run-all apply --auto-approve`
+
+`terragrunt run-all init -reconfigure --terragrunt-exclude-dir=alb

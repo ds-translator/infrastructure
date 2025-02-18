@@ -44,23 +44,14 @@ resource "aws_iam_policy" "terraform_least_privilege_policy" {
       {
         "Effect": "Allow",
         "Action": [
-            "s3:ListBucket",
-            "s3:GetObject",
-            "s3:PutObject",
-            "s3:DeleteObject",
-            "s3:CreateBucket",
-            "s3:ListBucket",
-            "s3:GetBucketLocation",
-            "s3:GetBucketPolicy",
-            "s3:PutBucketPolicy",
-            "s3:PutBucketTagging",
-            "s3:PutBucketVersioning",
-            "s3:GetBucketVersioning",
-            "s3:GetEncryptionConfiguration",
-            "s3:GetBucketPublicAccessBlock"
-        ],
+                "s3:ListBucket",
+                "s3:GetBucketVersioning",
+                "s3:GetEncryptionConfiguration",
+                "s3:GetBucketPolicy",
+                "s3:GetBucketPublicAccessBlock"
+            ],
         "Resource": [
-          "arn:aws:s3:::dst-terraform-state-*",
+          "arn:aws:s3:::dst-terraform-state",
           "arn:aws:s3:::dst-terraform-state-*/*"
         ]
       },
@@ -69,9 +60,18 @@ resource "aws_iam_policy" "terraform_least_privilege_policy" {
         "Effect": "Allow",
         "Resource": "*"
       },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::dst-terraform-state/*"
+        },      
       {
         "Effect": "Allow",
         "Action": [
+          "dynamodb:DescribeTable",
           "dynamodb:PutItem",
           "dynamodb:GetItem",
           "dynamodb:DeleteItem",
@@ -79,9 +79,22 @@ resource "aws_iam_policy" "terraform_least_privilege_policy" {
           "dynamodb:Query",
           "dynamodb:UpdateItem"
         ],
-        "Resource": "arn:aws:dynamodb:${var.region}:${data.aws_caller_identity.current.account_id}:table/dst-terraform-locks-*"
+        "Resource": "arn:aws:dynamodb:*:${data.aws_caller_identity.current.account_id}:table/dst-terraform-locks"
       },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sts:GetCallerIdentity",
+                "ec2:DescribeAvailabilityZones",
+                "iam:GetPolicy",
+                "iam:GetPolicyVersion",
+                "iam:ListPolicyVersions",
+                "iam:DeletePolicyVersion",
+                "iam:CreatePolicyVersion"                
 
+            ],
+            "Resource": "*"
+        },
       {
         "Effect": "Allow",
         "Action": [
@@ -89,7 +102,9 @@ resource "aws_iam_policy" "terraform_least_privilege_policy" {
           "ec2:RunInstances",
           "ec2:TerminateInstances",
           "ec2:StartInstances",
-          "ec2:StopInstances"
+          "ec2:StopInstances",
+          "ec2:DescribeAvailabilityZones"
+
         ],
         "Resource": "*"
       },
@@ -122,6 +137,22 @@ resource "aws_iam_policy" "terraform_least_privilege_policy" {
         ],
         "Resource": "*"
       },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetRole",
+                "iam:ListRolePolicies",
+                "iam:ListAttachedRolePolicies"
+            ],
+            "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:ListAttachedGroupPolicies"
+            ],
+            "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:group/*"
+        },
 
       {
         "Effect": "Allow",
