@@ -1,3 +1,40 @@
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "~> 20.31"
+
+  cluster_name    = "${var.project_id}-${var.environment}-cluster"
+  cluster_version = var.kubernetes_version
+
+  cluster_endpoint_public_access = true
+
+  enable_cluster_creator_admin_permissions = true
+
+  vpc_id     = var.vpc_id
+  subnet_ids = var.subnet_ids
+
+  access_entries = {
+      # One access entry with a policy associated
+      example = {
+        principal_arn = "arn:aws:iam::123456789012:role/something"
+
+        policy_associations = {
+          example = {
+            policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
+            access_scope = {
+              namespaces = ["default"]
+              type       = "namespace"
+            }
+          }
+        }
+      }
+    }
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project_name
+  }
+}
+
 resource "aws_iam_role" "eks_cluster_role" {
   name = "${var.project_id}-${var.environment}-eks-role"
 
@@ -31,27 +68,6 @@ resource "aws_iam_role_policy_attachment" "eks_service_policy" {
 }
 
 
-resource "aws_eks_cluster" "this" {
-  name     = "${var.project_id}-${var.environment}-cluster"
-  role_arn = aws_iam_role.eks_cluster_role.arn
-
-  vpc_config {
-    subnet_ids              = var.subnet_ids
-    endpoint_public_access  = true
-    endpoint_private_access = true
-  }
-
-  version = var.kubernetes_version
-
-  access_config {
-      authentication_mode = "API_AND_CONFIG_MAP"
-    }  
-
-  tags = {
-    Environment = var.environment
-    Project     = var.project_name
-  }
-}
 
 # Retrieve the EKS cluster details
 data "aws_eks_cluster" "cluster" {
@@ -85,12 +101,12 @@ data "aws_eks_cluster_auth" "cluster" {
   name = aws_eks_cluster.this.name
 }
 
-resource "aws_eks_access_entry" "example" {
-  cluster_name      = aws_eks_cluster.this.name
-  principal_arn     = "arn:aws:iam::707809188586:user/dst-github"
-  kubernetes_groups = ["system:masters"]
-  type              = "STANDARD"
-}
+# resource "aws_eks_access_entry" "example" {
+#   cluster_name      = aws_eks_cluster.this.name
+#   principal_arn     = "arn:aws:iam::707809188586:user/dst-github"
+#   kubernetes_groups = ["system:masters"]
+#   type              = "STANDARD"
+# }
 
 
 

@@ -24,6 +24,7 @@ inputs = {
   # -${include.root.inputs.environment}-eks-cluster"
 
   # cluster_role_arn   = "arn:aws:iam::123456789012:role/eksClusterRole"  # Replace with your role ARN
+  vpc_id  = dependency.networking.outputs.vpc_id
   subnet_ids         = dependency.networking.outputs.private_subnets  # Assuming you get these from a VPC module dependency
   kubernetes_version = "1.32"
 }
