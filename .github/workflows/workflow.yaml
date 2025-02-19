@@ -85,7 +85,7 @@ jobs:
           # ls -al
           # export NO_PROXY=oidc.eks.us-east-1.amazonaws.com
           terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
-          terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+          terragrunt run-all plan -terragrunt-log-level debug --terragrunt-non-interactive --terragrunt-exclude-dir=alb
 
           cd alb
           terragrunt init -reconfigure -auto-approve --terragrunt-non-interactive 
