@@ -14,6 +14,11 @@ variable "environments" {
   description = "List of environments to configure policies for"
 }
 
+variable "branches" {
+  type    = list(string)
+  default = ["develop", "release", "main"]
+}
+
 variable "terraform_state_bucket" {
   type        = string
   description = "Name of the S3 bucket to store the terraform state"

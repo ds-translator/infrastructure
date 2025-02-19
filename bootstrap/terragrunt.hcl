@@ -4,6 +4,7 @@ terraform {
 
 inputs = {
   environments = ["dev", "stage", "prod"]
+  branches = ["develop", "release", "main"]
   aws_region             = "us-east-1"
   terraform_state_bucket = "dst-bootstrap-terraform-states"
   terraform_locks_table = "dst-bootstrap-terraform-locks" 

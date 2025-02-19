@@ -1,3 +1,6 @@
+locals {
+  env_branch_map = zipmap(var.environments, var.branches)
+}
 
 resource "aws_iam_role" "github_actions_role" {
   for_each = toset(var.environments)
@@ -17,7 +20,7 @@ resource "aws_iam_role" "github_actions_role" {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com",
             # Adjust this condition as needed to restrict by repository and branch.
-            "token.actions.githubusercontent.com:sub" = "repo:${var.github_repo}:ref:refs/heads/${each.key}"
+            "token.actions.githubusercontent.com:sub" = "repo:${var.github_repo}:ref:refs/heads/${lookup(local.env_branch_map, each.key)}"
           }
         }
       }
