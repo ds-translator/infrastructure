@@ -78,7 +78,13 @@ jobs:
           echo "Deployment environment: $ENV_DIR"
           echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
 
+
       # Step 6: Initialize and plan all modules recursively using terragrunt run-all
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+
       - name: Terragrunt Init & Plan (Recursive)
         working-directory: ${{ steps.set-dir.outputs.env_dir }}
         run: |
