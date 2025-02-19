@@ -19,7 +19,7 @@
                 "ec2:DescribeNatGateways",
                 "eks:CreateCluster",
                 "iam:GetOpenIDConnectProvider",
-                "iam:PassRole",
+                "iam:TagOpenIDConnectProvider",
                 "iam:GetPolicy",
                 "iam:GetPolicyVersion"
             ],
@@ -95,9 +95,21 @@
                 "iam:GetRole",
                 "iam:ListRolePolicies",
                 "iam:ListAttachedRolePolicies",
-                "iam:AttachRolePolicy"
+                "iam:AttachRolePolicy",
+                "iam:DetachRolePolicy",
+                "iam:TagRole",
+                "iam:TagPolicy",
+                "iam:PassRole",
+                "iam:ListInstanceProfilesForRole",
+                "iam:DeleteRole"
+
+
             ],
-            "Resource": "arn:aws:iam::707809188586:role/*"
+            "Resource": [
+                "arn:aws:iam::707809188586:role/dst-dev-*",
+                "arn:aws:iam::707809188586:policy/dst-dev-*"
+            ]
+
         },
         {
             "Effect": "Allow",
@@ -272,7 +284,12 @@
             "Effect": "Allow",
             "Action": [
                 "eks:DescribeAccessEntry",
-                "eks:DeleteAccessEntry"
+                "eks:DeleteAccessEntry",
+                "eks:TagResource",
+                "eks:AssociateAccessPolicy",
+                "eks:ListAssociatedAccessPolicies",
+                "eks:DisassociateAccessPolicy",
+                "eks:ListAssociatedAccessPolicies"
             ],
             "Resource": "arn:aws:eks:us-east-1:707809188586:access-entry/dst-dev-cluster/user/707809188586/dst-github/*"
         },
@@ -293,6 +310,28 @@
             "Sid": "EC2FullAccess",
             "Effect": "Allow",
             "Action": "ec2:*",
+            "Resource": "*"
+        },
+        {
+            "Sid": "AllowLogAccess",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:TagResource",
+                "logs:PutRetentionPolicy",
+                "logs:DescribeLogGroups",
+                "logs:ListTagsForResource",
+                "logs:DeleteLogGroup"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "KmsAccess",
+            "Effect": "Allow",
+            "Action": [
+                "kms:TagResource",
+                "kms:CreateKey"
+            ],
             "Resource": "*"
         }
     ]
