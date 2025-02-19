@@ -29,34 +29,34 @@ jobs:
           tg_dir: 'live/dev'
           tg_command: 'hclfmt'
 
-  # develop:
-  #   name: Develop Phase (Basic Tests)
-  #   runs-on: ubuntu-latest
-  #   if: github.ref == 'refs/heads/develop'
-  #   permissions:
-  #     id-token: write
-  #     contents: read
-  #   steps:
-  #     # Use common steps
-  #     - name: Assume Role for Dev
-  #       uses: aws-actions/configure-aws-credentials@v2
-  #       with:
-  #         role-to-assume: arn:aws:iam::707809188586:role/dst-dev-github-infrastructure-role
-  #         aws-region: us-east-1
+  develop:
+    name: Develop Phase (Basic Tests)
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Assume Role for Dev
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::707809188586:role/dst-dev-github-infrastructure-role
+          aws-region: us-east-1
 
-  #     - name: Determine Deployment Directory
-  #       id: set-dir
-  #       run: |
-  #         ENV_DIR="live/dev"
-  #         echo "Deployment environment: $ENV_DIR"
-  #         echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
+      # - name: Determine Deployment Directory
+      #   id: set-dir
+      #   run: |
+      #     ENV_DIR="live/dev"
+      #     echo "Deployment environment: $ENV_DIR"
+      #     echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
 
-  #     - name: Plan
-  #       uses: gruntwork-io/terragrunt-action@v2
-  #       with:
-  #         tg_version: ${{ env.tg_version }}
-  #         tg_dir: ${{ env.working_dir }}
-  #         tg_command: 'plan'
+      - name: Plan
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: 'live/dev'
+          tg_command: 'plan'
 
       # - name: Terragrunt Init & Plan (Recursive)
       #   working-directory: ${{ steps.set-dir.outputs.env_dir }}
@@ -64,10 +64,10 @@ jobs:
       #     terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
       #     terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
 
-      # - name: Run Basic Tests
-      #   run: |
-      #     echo "Running basic tests for development..."
-      #     # Add your test commands here
+      - name: Run Basic Tests
+        run: |
+          echo "Running basic tests for development..."
+          # Add your test commands here
 
   # staging:
   #   name: Staging Phase (Deploy & Additional Tests)
