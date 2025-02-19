@@ -58,7 +58,7 @@ jobs:
       - name: Assume Role for Dev
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::707809188586:role/dst-${{ env.environment }}-github-infrastructure-role
+          role-to-assume: arn:aws:iam::707809188586:role/dst-dev-github-infrastructure-role
           aws-region: ${{ env.aws_region }}
 
       - name: Plan
