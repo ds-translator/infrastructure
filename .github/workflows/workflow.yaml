@@ -33,10 +33,14 @@ jobs:
     name: Develop Phase (Basic Tests)
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
+        
     permissions:
       id-token: write
       contents: read
     steps:
+      - name: 'Checkout'
+        uses: actions/checkout@main    
+        
       - name: Assume Role for Dev
         uses: aws-actions/configure-aws-credentials@v2
         with:
