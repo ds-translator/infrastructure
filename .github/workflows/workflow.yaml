@@ -27,7 +27,7 @@ jobs:
         id: assume-role
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::707809188586:role/dst-dev-github-deploy-role
+          role-to-assume: arn:aws:iam::707809188586:role/dst-dev-github-infrastructure-role
           aws-region: us-east-1
 
       # Step 3: Setup Terraform (required by Terragrunt)

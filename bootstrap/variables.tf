@@ -4,7 +4,12 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
-variable "github_repo" {
+variable "github_infrastructure_repo" {
+  description = "GitHub repository in the format 'org/repo'"
+  type        = string
+}
+
+variable "github_deployment_repo" {
   description = "GitHub repository in the format 'org/repo'"
   type        = string
 }
