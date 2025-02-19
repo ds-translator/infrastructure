@@ -10,6 +10,7 @@ on:
       - main
 
 env:
+  tf_version: '1.10.5'
   tg_version: '0.67.0'
   working_dir: 'project'
 
@@ -23,6 +24,7 @@ jobs:
       - name: Check terragrunt HCL
         uses: gruntwork-io/terragrunt-action@v2
         with:
+          tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: 'live/dev'
           tg_command: 'hclfmt --terragrunt-check --terragrunt-diff'
