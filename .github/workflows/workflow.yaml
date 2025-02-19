@@ -47,6 +47,12 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@main    
 
+      - name: Assume Role for Dev
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::707809188586:role/dst-dev-github-infrastructure-role
+          aws-region: ${{ env.aws_region }}
+
       - name: Check terragrunt HCL
         uses: gruntwork-io/terragrunt-action@v2
         with:
@@ -54,12 +60,6 @@ jobs:
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.tg_dir }}
           tg_command: 'run-all validate'
-
-      - name: Assume Role for Dev
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: arn:aws:iam::707809188586:role/dst-dev-github-infrastructure-role
-          aws-region: ${{ env.aws_region }}
 
       - name: Plan
         uses: gruntwork-io/terragrunt-action@v2
