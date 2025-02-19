@@ -13,28 +13,33 @@ env:
   tf_version: '1.10.5'
   tg_version: '0.67.0'
   working_dir: 'project'
-
+  aws_region: 'us-east-1'
+  aws_caller_identity: '707809188586'
+  
 jobs:
-  checks:
-    name: Basic Checks
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout'
-        uses: actions/checkout@main
+  # checks:
+  #   name: Basic Checks
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: 'Checkout'
+  #       uses: actions/checkout@main
 
-      - name: Check terragrunt HCL
-        uses: gruntwork-io/terragrunt-action@v2
-        with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: 'live/dev'
-          tg_command: 'hclfmt'
+  #     - name: Check terragrunt HCL
+  #       uses: gruntwork-io/terragrunt-action@v2
+  #       with:
+  #         tf_version: ${{ env.tf_version }}
+  #         tg_version: ${{ env.tg_version }}
+  #         tg_dir: 'live/dev'
+  #         tg_command: 'hclfmt'
 
   develop:
     name: Develop Phase (Basic Tests)
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
-        
+    env:
+      tg_dir: 'live/dev'
+      environment: 'dev'
+
     permissions:
       id-token: write
       contents: read
@@ -42,32 +47,36 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@main    
 
+      - name: Check terragrunt HCL
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.tg_dir }}
+          tg_command: 'validate'
+
       - name: Assume Role for Dev
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::707809188586:role/dst-dev-github-infrastructure-role
-          aws-region: us-east-1
-
-      # - name: Determine Deployment Directory
-      #   id: set-dir
-      #   run: |
-      #     ENV_DIR="live/dev"
-      #     echo "Deployment environment: $ENV_DIR"
-      #     echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
+          role-to-assume: arn:aws:iam::${{ aws_caller_identity }}:role/dst-${{ env.environment }}-github-infrastructure-role
+          aws-region: ${{ env.aws_region }}
 
       - name: Plan
         uses: gruntwork-io/terragrunt-action@v2
         with:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
-          tg_dir: 'live/dev'
-          tg_command: 'run-all plan'
+          tg_dir: ${{ env.tg_dir }}
+          tg_command: 'run-all plan --terragrunt-exclude-dir=alb'
 
-      # - name: Terragrunt Init & Plan (Recursive)
-      #   working-directory: ${{ steps.set-dir.outputs.env_dir }}
-      #   run: |
-      #     terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
-      #     terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+      - name: Deploy to dev
+        if: contains(github.event.head_commit.message, '[deploy]')      
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.tg_dir }}
+          tg_command: 'run-all apply --terragrunt-exclude-dir=alb'
 
       - name: Run Basic Tests
         run: |
