@@ -77,8 +77,8 @@ jobs:
       - name: Terragrunt Init & Plan (Recursive)
         working-directory: ${{ steps.set-dir.outputs.env_dir }}
         run: |
-          ls -al
-          export NO_PROXY=oidc.eks.us-east-1.amazonaws.com
+          # ls -al
+          # export NO_PROXY=oidc.eks.us-east-1.amazonaws.com
           terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
           terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
 
