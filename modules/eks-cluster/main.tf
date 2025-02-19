@@ -4,7 +4,7 @@ module "eks" {
 
   cluster_name    = "${var.project_id}-${var.environment}-cluster"
   cluster_version = var.kubernetes_version
-  iam_role_name = "${var.project_id}-${var.environment}-eks-role"
+  iam_role_name   = "${var.project_id}-${var.environment}-eks-role"
 
   cluster_endpoint_public_access = true
 
@@ -94,3 +94,17 @@ data "aws_eks_cluster_auth" "cluster" {
 #   thumbprint_list = [data.tls_certificate.cluster.certificates.0.sha1_fingerprint]
 #   url             = module.eks.cluster_oidc_issuer_url
 # }
+
+module "lb_role" {
+  source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+
+  role_name                              = "${var.project_id}-${var.environment}-eks-alb-role"
+  attach_load_balancer_controller_policy = true
+
+  oidc_providers = {
+    main = {
+      provider_arn               = module.eks.oidc_provider
+      namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
+    }
+  }
+}
