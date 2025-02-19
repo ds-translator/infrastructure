@@ -53,7 +53,7 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.tg_dir }}
-          tg_command: 'validate'
+          tg_command: 'run-all validate'
 
       - name: Assume Role for Dev
         uses: aws-actions/configure-aws-credentials@v2
