@@ -9,6 +9,7 @@ dependency "networking" {
   config_path = "../networking"
 
   mock_outputs = {
+    vpc_id = "vpc-1939479"
     private_subnets = ["subnet-12345678", "subnet-87654321"]
   }  
 }
