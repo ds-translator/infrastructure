@@ -14,7 +14,6 @@ env:
   working_dir: 'project'
 
 jobs:
-
   checks:
     runs-on: ubuntu-latest
     steps:
@@ -68,75 +67,75 @@ jobs:
       #     echo "Running basic tests for development..."
       #     # Add your test commands here
 
-  staging:
-    name: Staging Phase (Deploy & Additional Tests)
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/release'
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      <<: *common-steps
+  # staging:
+  #   name: Staging Phase (Deploy & Additional Tests)
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/release'
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   steps:
+  #     <<: *common-steps
 
-      - name: Assume Role for Staging
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: arn:aws:iam::707809188586:role/dst-stage-github-infrastructure-role
-          aws-region: us-east-1
+  #     - name: Assume Role for Staging
+  #       uses: aws-actions/configure-aws-credentials@v2
+  #       with:
+  #         role-to-assume: arn:aws:iam::707809188586:role/dst-stage-github-infrastructure-role
+  #         aws-region: us-east-1
 
-      - name: Determine Deployment Directory
-        id: set-dir
-        run: |
-          ENV_DIR="live/stage"
-          echo "Deployment environment: $ENV_DIR"
-          echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
+  #     - name: Determine Deployment Directory
+  #       id: set-dir
+  #       run: |
+  #         ENV_DIR="live/stage"
+  #         echo "Deployment environment: $ENV_DIR"
+  #         echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
 
-      - name: Terragrunt Init & Plan (Recursive)
-        working-directory: ${{ steps.set-dir.outputs.env_dir }}
-        run: |
-          terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
-          terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+  #     - name: Terragrunt Init & Plan (Recursive)
+  #       working-directory: ${{ steps.set-dir.outputs.env_dir }}
+  #       run: |
+  #         terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+  #         terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
 
-      - name: Terragrunt Apply (Staging)
-        working-directory: ${{ steps.set-dir.outputs.env_dir }}
-        run: |
-          terragrunt run-all apply -auto-approve --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+  #     - name: Terragrunt Apply (Staging)
+  #       working-directory: ${{ steps.set-dir.outputs.env_dir }}
+  #       run: |
+  #         terragrunt run-all apply -auto-approve --terragrunt-non-interactive --terragrunt-exclude-dir=alb
 
-      - name: Run Additional Staging Tests
-        run: |
-          echo "Running additional tests on staging..."
-          # Add your staging test commands here
+  #     - name: Run Additional Staging Tests
+  #       run: |
+  #         echo "Running additional tests on staging..."
+  #         # Add your staging test commands here
 
-  production:
-    name: Production Phase (Deploy on PR)
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      <<: *common-steps
+  # production:
+  #   name: Production Phase (Deploy on PR)
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'pull_request'
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   steps:
+  #     <<: *common-steps
 
-      - name: Assume Role for Prod
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: arn:aws:iam::707809188586:role/dst-prod-github-infrastructure-role
-          aws-region: us-east-1
+  #     - name: Assume Role for Prod
+  #       uses: aws-actions/configure-aws-credentials@v2
+  #       with:
+  #         role-to-assume: arn:aws:iam::707809188586:role/dst-prod-github-infrastructure-role
+  #         aws-region: us-east-1
 
-      - name: Determine Deployment Directory
-        id: set-dir
-        run: |
-          ENV_DIR="live/prod"
-          echo "Deployment environment: $ENV_DIR"
-          echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
+  #     - name: Determine Deployment Directory
+  #       id: set-dir
+  #       run: |
+  #         ENV_DIR="live/prod"
+  #         echo "Deployment environment: $ENV_DIR"
+  #         echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
 
-      - name: Terragrunt Init & Plan (Recursive)
-        working-directory: ${{ steps.set-dir.outputs.env_dir }}
-        run: |
-          terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
-          terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+  #     - name: Terragrunt Init & Plan (Recursive)
+  #       working-directory: ${{ steps.set-dir.outputs.env_dir }}
+  #       run: |
+  #         terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+  #         terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
 
-      - name: Terragrunt Apply (Production)
-        working-directory: ${{ steps.set-dir.outputs.env_dir }}
-        run: |
-          terragrunt run-all apply -auto-approve --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+  #     - name: Terragrunt Apply (Production)
+  #       working-directory: ${{ steps.set-dir.outputs.env_dir }}
+  #       run: |
+  #         terragrunt run-all apply -auto-approve --terragrunt-non-interactive --terragrunt-exclude-dir=alb
