@@ -25,6 +25,7 @@ resource "aws_vpc" "main" {
     Name        = "${var.project_id}-${var.environment}-vpc"
     Environment = var.environment
     Project     = var.project_name
+    Terraform   = true
   }
 }
 
@@ -47,9 +48,9 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name        = "${var.project_id}-${var.environment}-public-subnet-${count.index + 1}"
-    Environment = var.environment
-    "kubernetes.io/role/elb" = 1
+    Name                                                                 = "${var.project_id}-${var.environment}-public-subnet-${count.index + 1}"
+    Environment                                                          = var.environment
+    "kubernetes.io/role/elb"                                             = 1
     "kubernetes.io/cluster/${var.project_id}-${var.environment}-cluster" = "owned"
   }
 }
@@ -92,8 +93,8 @@ resource "aws_route_table_association" "public" {
 }
 
 resource "aws_eip" "nat" {
-  count = length(aws_subnet.public)
-  domain   = "vpc"
+  count  = length(aws_subnet.public)
+  domain = "vpc"
 
   depends_on = [aws_internet_gateway.igw]
 }

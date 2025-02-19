@@ -34,7 +34,7 @@
                 "s3:GetBucketPolicy",
                 "s3:GetBucketPublicAccessBlock"
             ],
-            "Resource": "arn:aws:s3:::dst-terraform-state-3"
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}"
         },
         {
             "Effect": "Allow",
@@ -44,7 +44,7 @@
                 "dynamodb:GetItem",
                 "dynamodb:DeleteItem"
             ],
-            "Resource": "arn:aws:dynamodb:us-east-1:707809188586:table/dst-terraform-locks"
+            "Resource": "arn:aws:dynamodb:${aws_region}:${aws_caller_identity}:table/${terraform_locks_table}"
         },
         {
             "Effect": "Allow",
@@ -52,7 +52,7 @@
                 "s3:GetObject",
                 "s3:GetObjectVersion"
             ],
-            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/launch-templates/terraform.tfstate"
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/launch-templates/terraform.tfstate"
         },
         {
             "Effect": "Allow",
@@ -62,7 +62,7 @@
                 "s3:ListMultipartUploadParts",
                 "s3:PutObject"
             ],
-            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/networking/terraform.tfstate"
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/networking/terraform.tfstate"
         },
         {
             "Effect": "Allow",
@@ -70,7 +70,7 @@
                 "s3:GetObject",
                 "s3:GetObjectVersion"
             ],
-            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/security/terraform.tfstate"
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/security/terraform.tfstate"
         },
         {
             "Effect": "Allow",
@@ -79,14 +79,14 @@
                 "ec2:ModifyVpcAttribute",
                 "ec2:DescribeVpcAttribute"
             ],
-            "Resource": "arn:aws:ec2:us-east-1:707809188586:vpc/*"
+            "Resource": "arn:aws:ec2:${aws_region}:${aws_caller_identity}:vpc/*"
         },
         {
             "Effect": "Allow",
             "Action": [
                 "ec2:CreateLaunchTemplate"
             ],
-            "Resource": "arn:aws:ec2:us-east-1:707809188586:launch-template/*"
+            "Resource": "arn:aws:ec2:${aws_region}:${aws_caller_identity}:launch-template/*"
         },
         {
             "Effect": "Allow",
@@ -106,8 +106,8 @@
 
             ],
             "Resource": [
-                "arn:aws:iam::707809188586:role/dst-dev-*",
-                "arn:aws:iam::707809188586:policy/dst-dev-*"
+                "arn:aws:iam::${aws_caller_identity}:role/${project_id}-${environment}-*",
+                "arn:aws:iam::${aws_caller_identity}:policy/${project_id}-${environment}-*"
             ]
 
         },
@@ -117,8 +117,8 @@
                 "ec2:CreateSubnet"
             ],
             "Resource": [
-                "arn:aws:ec2:us-east-1:707809188586:subnet/*",
-                "arn:aws:ec2:us-east-1:707809188586:vpc/*"
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:subnet/*",
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:vpc/*"
             ]
         },
         {
@@ -126,7 +126,7 @@
             "Action": [
                 "ec2:CreateInternetGateway"
             ],
-            "Resource": "arn:aws:ec2:us-east-1:707809188586:internet-gateway/*"
+            "Resource": "arn:aws:ec2:${aws_region}:${aws_caller_identity}:internet-gateway/*"
         },
         {
             "Effect": "Allow",
@@ -134,8 +134,8 @@
                 "ec2:AttachInternetGateway"
             ],
             "Resource": [
-                "arn:aws:ec2:us-east-1:707809188586:internet-gateway/*",
-                "arn:aws:ec2:us-east-1:707809188586:vpc/*"
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:internet-gateway/*",
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:vpc/*"
             ]
         },
         {
@@ -143,7 +143,7 @@
             "Action": [
                 "ec2:ModifySubnetAttribute"
             ],
-            "Resource": "arn:aws:ec2:us-east-1:707809188586:subnet/*"
+            "Resource": "arn:aws:ec2:${aws_region}:${aws_caller_identity}:subnet/*"
         },
         {
             "Effect": "Allow",
@@ -151,8 +151,8 @@
                 "ec2:CreateRouteTable"
             ],
             "Resource": [
-                "arn:aws:ec2:us-east-1:707809188586:route-table/*",
-                "arn:aws:ec2:us-east-1:707809188586:vpc/*"
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:route-table/*",
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:vpc/*"
             ]
         },
         {
@@ -161,14 +161,14 @@
                 "ec2:CreateRoute",
                 "ec2:AssociateRouteTable"
             ],
-            "Resource": "arn:aws:ec2:us-east-1:707809188586:route-table/*"
+            "Resource": "arn:aws:ec2:${aws_region}:${aws_caller_identity}:route-table/*"
         },
         {
             "Effect": "Allow",
             "Action": [
                 "ec2:AllocateAddress"
             ],
-            "Resource": "arn:aws:ec2:us-east-1:707809188586:elastic-ip/*"
+            "Resource": "arn:aws:ec2:${aws_region}:${aws_caller_identity}:elastic-ip/*"
         },
         {
             "Effect": "Allow",
@@ -176,8 +176,8 @@
                 "ec2:CreateNatGateway"
             ],
             "Resource": [
-                "arn:aws:ec2:us-east-1:707809188586:natgateway/*",
-                "arn:aws:ec2:us-east-1:707809188586:subnet/*"
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:natgateway/*",
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:subnet/*"
             ]
         },
         {
@@ -188,14 +188,14 @@
                 "s3:ListMultipartUploadParts",
                 "s3:PutObject"
             ],
-            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/eks-cluster/terraform.tfstate"
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/eks-cluster/terraform.tfstate"
         },
         {
             "Effect": "Allow",
             "Action": [
                 "iam:PassRole"
             ],
-            "Resource": "arn:aws:iam::707809188586:role/dst-dev-eks-role"
+            "Resource": "arn:aws:iam::${aws_caller_identity}:role/${project_id}-${environment}-eks-role"
         },
         {
             "Effect": "Allow",
@@ -205,7 +205,7 @@
                 "eks:DeleteCluster",
                 "eks:TagResource"
             ],
-            "Resource": "arn:aws:eks:us-east-1:707809188586:cluster/dst-dev-cluster"
+            "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:cluster/${project_id}-${environment}-cluster"
         },
         {
             "Effect": "Allow",
@@ -213,7 +213,7 @@
                 "iam:CreateOpenIDConnectProvider",
                 "iam:DeleteOpenIDConnectProvider"
             ],
-            "Resource": "arn:aws:iam::707809188586:oidc-provider/*"
+            "Resource": "arn:aws:iam::${aws_caller_identity}:oidc-provider/*"
         },
         {
             "Effect": "Allow",
@@ -222,7 +222,7 @@
                 "s3:GetObjectVersion",
 				"s3:PutObject"
             ],
-            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/ng-frontend/terraform.tfstate"
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/ng-frontend/terraform.tfstate"
         },
         {
             "Effect": "Allow",
@@ -231,7 +231,7 @@
                 "s3:GetObjectVersion",
 				"s3:PutObject"
             ],
-            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/ng-gpu/terraform.tfstate"
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/ng-gpu/terraform.tfstate"
         },
         {
             "Effect": "Allow",
@@ -239,14 +239,14 @@
                 "eks:CreateNodegroup",
                 "eks:DeleteNodegroup"
             ],
-            "Resource": "arn:aws:eks:us-east-1:707809188586:cluster/*"
+            "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:cluster/*"
         },
         {
             "Effect": "Allow",
             "Action": [
                 "iam:PassRole"
             ],
-            "Resource": "arn:aws:iam::707809188586:role/dst-dev-eks-ng-role"
+            "Resource": "arn:aws:iam::${aws_caller_identity}:role/${project_id}-${environment}-eks-ng-role"
         },
         {
             "Effect": "Allow",
@@ -254,7 +254,7 @@
                 "eks:DescribeNodegroup",
                 "eks:DeleteNodegroup"
             ],
-            "Resource": "arn:aws:eks:us-east-1:707809188586:nodegroup/*/dst-dev-eks-ng-frontend/*"
+            "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:nodegroup/*/${project_id}-${environment}-eks-ng-frontend/*"
         },
         {
             "Effect": "Allow",
@@ -262,7 +262,7 @@
                 "eks:DescribeNodegroup",
                 "eks:DeleteNodegroup"
             ],
-            "Resource": "arn:aws:eks:us-east-1:707809188586:nodegroup/*/dst-dev-eks-ng-gpu/*"
+            "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:nodegroup/*/${project_id}-${environment}-eks-ng-gpu/*"
         },
         {
             "Effect": "Allow",
@@ -270,14 +270,14 @@
                 "s3:GetObject",
                 "s3:GetObjectVersion"
             ],
-            "Resource": "arn:aws:s3:::dst-terraform-state-3/dev/alb/terraform.tfstate"
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/alb/terraform.tfstate"
         },
         {
             "Effect": "Allow",
             "Action": [
                 "iam:CreatePolicy"
             ],
-            "Resource": "arn:aws:iam::707809188586:policy/*"
+            "Resource": "arn:aws:iam::${aws_caller_identity}:policy/*"
         },
         {
             "Sid": "AllowDescribeAccessEntry",
@@ -291,7 +291,7 @@
                 "eks:DisassociateAccessPolicy",
                 "eks:ListAssociatedAccessPolicies"
             ],
-            "Resource": "arn:aws:eks:us-east-1:707809188586:access-entry/dst-dev-cluster/user/707809188586/dst-github/*"
+            "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:access-entry/${project_id}-${environment}-cluster/user/${aws_caller_identity}/${project_id}-github/*"
         },
         {
             "Sid": "AllowLaunchInstancesWithTemplate",
@@ -302,8 +302,8 @@
               "ec2:CreateTags"
             ],
             "Resource": [
-              "arn:aws:ec2:us-east-1:707809188586:launch-template/*",
-              "arn:aws:ec2:us-east-1:707809188586:launch-template/*/*"
+              "arn:aws:ec2:${aws_region}:${aws_caller_identity}:launch-template/*",
+              "arn:aws:ec2:${aws_region}:${aws_caller_identity}:launch-template/*/*"
             ]
         },
         {

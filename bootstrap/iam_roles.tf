@@ -1,12 +1,8 @@
-locals {
-  # List the environments you want to support
-  environments = ["dev", "staging", "prod"]
-}
 
 resource "aws_iam_role" "github_actions_role" {
-  for_each = toset(local.environments)
+  for_each = toset(var.environments)
 
-  name = "${each.key}-deploy-role"
+  name = "${var.project_id}-${each.key}-github-deploy-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -27,4 +23,11 @@ resource "aws_iam_role" "github_actions_role" {
       }
     ]
   })
+
+  tags = {
+    Environment = each.key
+    Project     = var.project_name
+    Terraform   = true
+  }  
+
 }
