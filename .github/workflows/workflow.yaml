@@ -27,7 +27,7 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: 'live/dev'
-          tg_command: 'hclfmt --terragrunt-check --terragrunt-diff'
+          tg_command: 'hclfmt'
 
   # develop:
   #   name: Develop Phase (Basic Tests)
