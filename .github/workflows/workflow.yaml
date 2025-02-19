@@ -16,6 +16,7 @@ env:
 
 jobs:
   checks:
+    name: Basic Checks
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout'
@@ -40,7 +41,7 @@ jobs:
     steps:
       - name: 'Checkout'
         uses: actions/checkout@main    
-        
+
       - name: Assume Role for Dev
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -60,7 +61,7 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: 'live/dev'
-          tg_command: 'plan'
+          tg_command: 'run-all plan'
 
       # - name: Terragrunt Init & Plan (Recursive)
       #   working-directory: ${{ steps.set-dir.outputs.env_dir }}
