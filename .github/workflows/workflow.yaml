@@ -9,71 +9,64 @@ on:
     branches:
       - main
 
-# Define common steps as anchors
-defaults: &common-steps
-  - name: Checkout Repository
-    uses: actions/checkout@v3
-
-  - name: Setup Terraform
-    uses: hashicorp/setup-terraform@v2
-    with:
-      terraform_version: 1.3.6
-
-  - name: Cache Terragrunt Binary
-    uses: actions/cache@v3
-    with:
-      path: ~/.terragrunt
-      key: terragrunt-${{ runner.os }}-v0.45.0
-      restore-keys: |
-        terragrunt-${{ runner.os }}-
-
-  - name: Install Terragrunt
-    run: |
-      mkdir -p ~/.terragrunt
-      if [ ! -f ~/.terragrunt/terragrunt ]; then
-        echo "Downloading Terragrunt..."
-        wget -qO ~/.terragrunt/terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.45.0/terragrunt_linux_amd64
-        chmod +x ~/.terragrunt/terragrunt
-      else
-        echo "Terragrunt is already cached."
-      fi
-      echo "${HOME}/.terragrunt" >> $GITHUB_PATH
+env:
+  tg_version: '0.67.0'
+  working_dir: 'project'
 
 jobs:
-  develop:
-    name: Develop Phase (Basic Tests)
+
+  checks:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
-    permissions:
-      id-token: write
-      contents: read
     steps:
-      # Use common steps
-      <<: *common-steps
+      - name: 'Checkout'
+        uses: actions/checkout@main
 
-      - name: Assume Role for Dev
-        uses: aws-actions/configure-aws-credentials@v2
+      - name: Check terragrunt HCL
+        uses: gruntwork-io/terragrunt-action@v2
         with:
-          role-to-assume: arn:aws:iam::707809188586:role/dst-dev-github-infrastructure-role
-          aws-region: us-east-1
+          tg_version: ${{ env.tg_version }}
+          tg_dir: 'live/dev'
+          tg_command: 'hclfmt --terragrunt-check --terragrunt-diff'
 
-      - name: Determine Deployment Directory
-        id: set-dir
-        run: |
-          ENV_DIR="live/dev"
-          echo "Deployment environment: $ENV_DIR"
-          echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
+  # develop:
+  #   name: Develop Phase (Basic Tests)
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/develop'
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   steps:
+  #     # Use common steps
+  #     - name: Assume Role for Dev
+  #       uses: aws-actions/configure-aws-credentials@v2
+  #       with:
+  #         role-to-assume: arn:aws:iam::707809188586:role/dst-dev-github-infrastructure-role
+  #         aws-region: us-east-1
 
-      - name: Terragrunt Init & Plan (Recursive)
-        working-directory: ${{ steps.set-dir.outputs.env_dir }}
-        run: |
-          terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
-          terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+  #     - name: Determine Deployment Directory
+  #       id: set-dir
+  #       run: |
+  #         ENV_DIR="live/dev"
+  #         echo "Deployment environment: $ENV_DIR"
+  #         echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
 
-      - name: Run Basic Tests
-        run: |
-          echo "Running basic tests for development..."
-          # Add your test commands here
+  #     - name: Plan
+  #       uses: gruntwork-io/terragrunt-action@v2
+  #       with:
+  #         tg_version: ${{ env.tg_version }}
+  #         tg_dir: ${{ env.working_dir }}
+  #         tg_command: 'plan'
+
+      # - name: Terragrunt Init & Plan (Recursive)
+      #   working-directory: ${{ steps.set-dir.outputs.env_dir }}
+      #   run: |
+      #     terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+      #     terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+
+      # - name: Run Basic Tests
+      #   run: |
+      #     echo "Running basic tests for development..."
+      #     # Add your test commands here
 
   staging:
     name: Staging Phase (Deploy & Additional Tests)
