@@ -14,7 +14,7 @@ remote_state {
   backend = "s3"
   config = {
     # dst-terraform-state is deleted but throws errors
-    bucket = "dst-terraform-state-3"
+    bucket = "dst-terraform-states"
     region = "us-east-1"
     key    = "${path_relative_to_include()}/terraform.tfstate"
     dynamodb_table = "dst-terraform-locks"
