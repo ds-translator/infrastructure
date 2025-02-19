@@ -5,98 +5,145 @@ on:
     branches:
       - develop
       - release
+  pull_request:
+    branches:
       - main
 
-jobs:
-  deploy:
-    if: contains(github.event.head_commit.message, '[deploy]')
-    runs-on: ubuntu-latest
+# Define common steps as anchors
+defaults: &common-steps
+  - name: Checkout Repository
+    uses: actions/checkout@v3
 
+  - name: Setup Terraform
+    uses: hashicorp/setup-terraform@v2
+    with:
+      terraform_version: 1.3.6
+
+  - name: Cache Terragrunt Binary
+    uses: actions/cache@v3
+    with:
+      path: ~/.terragrunt
+      key: terragrunt-${{ runner.os }}-v0.45.0
+      restore-keys: |
+        terragrunt-${{ runner.os }}-
+
+  - name: Install Terragrunt
+    run: |
+      mkdir -p ~/.terragrunt
+      if [ ! -f ~/.terragrunt/terragrunt ]; then
+        echo "Downloading Terragrunt..."
+        wget -qO ~/.terragrunt/terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.45.0/terragrunt_linux_amd64
+        chmod +x ~/.terragrunt/terragrunt
+      else
+        echo "Terragrunt is already cached."
+      fi
+      echo "${HOME}/.terragrunt" >> $GITHUB_PATH
+
+jobs:
+  develop:
+    name: Develop Phase (Basic Tests)
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
     permissions:
       id-token: write
       contents: read
-
     steps:
-      # Step 1: Check out the repository
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      # Use common steps
+      <<: *common-steps
 
-      # Step 2: Configure AWS Credentials (ensure these secrets are set in your repository)
       - name: Assume Role for Dev
-        if: github.ref == 'refs/heads/develop'
-        id: assume-role
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: arn:aws:iam::707809188586:role/dst-dev-github-infrastructure-role
           aws-region: us-east-1
 
-      # Step 3: Setup Terraform (required by Terragrunt)
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.3.6
-
-      # Cache Terragrunt binary in ~/.terragrunt
-      - name: Cache Terragrunt Binary
-        id: cache-tg
-        uses: actions/cache@v3
-        with:
-          path: ~/.terragrunt
-          key: terragrunt-${{ runner.os }}-v0.45.0
-          restore-keys: |
-            terragrunt-${{ runner.os }}-
-
-      - name: Install Terragrunt
-        run: |
-          mkdir -p ~/.terragrunt
-          if [ ! -f ~/.terragrunt/terragrunt ]; then
-            echo "Downloading Terragrunt..."
-            wget -qO ~/.terragrunt/terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.45.0/terragrunt_linux_amd64
-            chmod +x ~/.terragrunt/terragrunt
-          else
-            echo "Terragrunt is already cached."
-          fi
-          # Add Terragrunt directory to PATH
-          echo "${HOME}/.terragrunt" >> $GITHUB_PATH
-
-      # Step 5: Determine the environment directory based on the branch name
       - name: Determine Deployment Directory
         id: set-dir
         run: |
-          BRANCH="${GITHUB_REF##*/}"
-          echo "Current branch: $BRANCH"
-          if [ "$BRANCH" == "develop" ]; then
-            ENV_DIR="live/dev"
-          elif [ "$BRANCH" == "release" ]; then
-            ENV_DIR="live/stage"
-          elif [ "$BRANCH" == "main" ]; then
-            ENV_DIR="live/prod"
-          else
-            echo "Unsupported branch: $BRANCH"
-            exit 1
-          fi
+          ENV_DIR="live/dev"
           echo "Deployment environment: $ENV_DIR"
           echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
-
-
-      # Step 6: Initialize and plan all modules recursively using terragrunt run-all
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_wrapper: false
 
       - name: Terragrunt Init & Plan (Recursive)
         working-directory: ${{ steps.set-dir.outputs.env_dir }}
         run: |
-          # ls -al
-          # export NO_PROXY=oidc.eks.us-east-1.amazonaws.com
           terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
           terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
 
-      # Step 7: Apply all changes automatically (only on the main branch)
-      - name: Terragrunt Apply (Recursive - Prod Only)
-        if: ${{ github.ref == 'refs/heads/main' }}
+      - name: Run Basic Tests
+        run: |
+          echo "Running basic tests for development..."
+          # Add your test commands here
+
+  staging:
+    name: Staging Phase (Deploy & Additional Tests)
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/release'
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      <<: *common-steps
+
+      - name: Assume Role for Staging
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::707809188586:role/dst-stage-github-infrastructure-role
+          aws-region: us-east-1
+
+      - name: Determine Deployment Directory
+        id: set-dir
+        run: |
+          ENV_DIR="live/stage"
+          echo "Deployment environment: $ENV_DIR"
+          echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
+
+      - name: Terragrunt Init & Plan (Recursive)
         working-directory: ${{ steps.set-dir.outputs.env_dir }}
         run: |
-          terragrunt run-all apply -auto-approve --terragrunt-non-interactive  --terragrunt-exclude-dir=alb
-          
+          terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+          terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+
+      - name: Terragrunt Apply (Staging)
+        working-directory: ${{ steps.set-dir.outputs.env_dir }}
+        run: |
+          terragrunt run-all apply -auto-approve --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+
+      - name: Run Additional Staging Tests
+        run: |
+          echo "Running additional tests on staging..."
+          # Add your staging test commands here
+
+  production:
+    name: Production Phase (Deploy on PR)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      <<: *common-steps
+
+      - name: Assume Role for Prod
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::707809188586:role/dst-prod-github-infrastructure-role
+          aws-region: us-east-1
+
+      - name: Determine Deployment Directory
+        id: set-dir
+        run: |
+          ENV_DIR="live/prod"
+          echo "Deployment environment: $ENV_DIR"
+          echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
+
+      - name: Terragrunt Init & Plan (Recursive)
+        working-directory: ${{ steps.set-dir.outputs.env_dir }}
+        run: |
+          terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+          terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+
+      - name: Terragrunt Apply (Production)
+        working-directory: ${{ steps.set-dir.outputs.env_dir }}
+        run: |
+          terragrunt run-all apply -auto-approve --terragrunt-non-interactive --terragrunt-exclude-dir=alb
