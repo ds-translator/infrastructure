@@ -1,10 +1,10 @@
 data "aws_caller_identity" "current" {}
 
-resource "aws_iam_policy" "github_actions_policy" {
+resource "aws_iam_policy" "github_actions_infrastructure_policy" {
   for_each = toset(var.environments)
 
-  name        = "${var.project_id}-${each.key}-github-deploy-policy"
-  description = "Policy for GitHub Actions deployment in ${each.key}"
+  name        = "${var.project_id}-${each.key}-github-infrastructure-policy"
+  description = "Policy for GitHub Actions infrastructure provisioning in ${each.key}"
 
   policy = templatefile(
     "${path.module}/policies/dst-${each.key}-terraform-least-privilege.json",
@@ -24,9 +24,9 @@ resource "aws_iam_policy" "github_actions_policy" {
   }  
 }
 
-resource "aws_iam_role_policy_attachment" "github_actions_attachment" {
+resource "aws_iam_role_policy_attachment" "github_actions_infrastructure_attachment" {
   for_each = toset(var.environments)
 
-  role       = aws_iam_role.github_actions_role[each.key].name
-  policy_arn = aws_iam_policy.github_actions_policy[each.key].arn
+  role       = aws_iam_role.github_actions_infrastructure_role[each.key].name
+  policy_arn = aws_iam_policy.github_actions_infrastructure_policy[each.key].arn
 }

@@ -10,7 +10,8 @@ inputs = {
   terraform_locks_table = "dst-terraform-locks" 
   project_id = "dst"
   project_name = "datascientest-translator"
-  github_repo = "ds-translator/infrastructure"
+  github_infrastructure_repo = "ds-translator/infrastructure"
+  github_deployment_repo = "ds-translator/deployment"
 }
 
 remote_state {
