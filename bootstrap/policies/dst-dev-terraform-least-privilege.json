@@ -197,7 +197,8 @@
                 "eks:DescribeCluster",
                 "eks:CreateAccessEntry",
                 "eks:DeleteCluster",
-                "eks:TagResource"
+                "eks:TagResource",
+                "eks:DescribeUpdate"
             ],
             "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:cluster/${project_id}-${environment}-cluster"
         },
@@ -229,17 +230,10 @@
             "Action": [
                 "eks:DescribeNodegroup",
                 "eks:DeleteNodegroup",
-                "eks:UpdateNodegroupVersion"
+                "eks:UpdateNodegroupVersion",
+                "eks:DescribeUpdate"
             ],
-            "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:nodegroup/*/${project_id}-${environment}-eks-ng-frontend/*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "eks:DescribeNodegroup",
-                "eks:DeleteNodegroup"
-            ],
-            "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:nodegroup/*/${project_id}-${environment}-eks-ng-gpu/*"
+            "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:nodegroup/*/${project_id}-${environment}-eks-ng-*/*"
         },
         {
             "Effect": "Allow",
