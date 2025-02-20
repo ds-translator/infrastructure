@@ -13,6 +13,8 @@ dependency "launch_templates" {
 dependency "security" {
   config_path = "../security"
 
+  mock_outputs_allowed_terraform_commands = ["validate"]
+
   mock_outputs = {
     node_role_name = "mock-eks-node-group-role"
     node_role_arn  = "arn:aws:iam::123456789012:role/mock-eks-node-group-role"
