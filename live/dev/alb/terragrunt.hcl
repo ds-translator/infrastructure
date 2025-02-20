@@ -16,6 +16,9 @@ dependency "networking" {
 }
 
 dependency "eks-cluster" {
+
+  mock_outputs_allowed_terraform_commands = ["validate"]
+
   # Adjust the path according to your directory structure.
   config_path = "../eks-cluster"
 
@@ -43,6 +46,7 @@ inputs = {
   cluster_name = dependency.eks-cluster.outputs.cluster_name
   cluster_endpoint = dependency.eks-cluster.outputs.cluster_endpoint
   cluster_token = dependency.eks-cluster.outputs.cluster_token
-  cluster_certificate_authority_data = dependency.eks-cluster.outputs.cluster_certificate_authority_data
   oidc_provider_arn = dependency.eks-cluster.outputs.oidc_provider_arn
+  cluster_certificate_authority_data = dependency.eks-cluster.outputs.cluster_certificate_authority_data
+
 }
