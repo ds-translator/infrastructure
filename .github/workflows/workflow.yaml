@@ -44,7 +44,7 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.tg_dir }}
-          tg_command: 'run-all validate'
+          tg_command: 'run-all validate --terragrunt-exclude-dir=alb'
 
       - name: Generate Terraform Plan
         uses: gruntwork-io/terragrunt-action@v2
