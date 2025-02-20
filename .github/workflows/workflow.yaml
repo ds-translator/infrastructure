@@ -1,13 +1,13 @@
 name: Terragrunt Deployment
 
-on:
-  push:
-    branches:
-      - develop
-      - release
-  pull_request:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - develop
+#       - release
+#   pull_request:
+#     branches:
+#       - main
 
 env:
   tf_version: '1.10.5'

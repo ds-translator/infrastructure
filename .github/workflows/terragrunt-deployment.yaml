@@ -1,0 +1,53 @@
+name: Terragrunt Deployment
+
+on:
+  push:
+    branches:
+      - develop
+      - release
+  pull_request:
+    branches:
+      - main
+
+env:
+  tf_version: '1.10.5'
+  tg_version: '0.67.0'
+  aws_region: 'us-east-1'
+  aws_caller_identity: '707809188586'
+
+jobs:
+  develop:
+    if: github.ref == 'refs/heads/develop'
+    uses: ./.github/workflows/terragrunt-common.yml
+    with:
+      tg_dir: 'live/dev'
+      environment: 'dev'
+      aws_region: ${{ env.aws_region }}
+      aws_caller_identity: ${{ env.aws_caller_identity }}
+      tf_version: ${{ env.tf_version }}
+      tg_version: ${{ env.tg_version }}
+      deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
+
+  staging:
+    if: github.ref == 'refs/heads/release'
+    uses: ./.github/workflows/terragrunt-common.yml
+    with:
+      tg_dir: 'live/stage'
+      environment: 'stage'
+      aws_region: ${{ env.aws_region }}
+      aws_caller_identity: ${{ env.aws_caller_identity }}
+      tf_version: ${{ env.tf_version }}
+      tg_version: ${{ env.tg_version }}
+      deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
+
+  production:
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/terragrunt-common.yml
+    with:
+      tg_dir: 'live/prod'
+      environment: 'prod'
+      aws_region: ${{ env.aws_region }}
+      aws_caller_identity: ${{ env.aws_caller_identity }}
+      tf_version: ${{ env.tf_version }}
+      tg_version: ${{ env.tg_version }}
+      deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
