@@ -34,10 +34,10 @@ jobs:
     with:
       tg_dir: 'live/stage'
       environment: 'stage'
-      aws_region: ${{ env.aws_region }}
-      aws_caller_identity: ${{ env.aws_caller_identity }}
-      tf_version: ${{ env.tf_version }}
-      tg_version: ${{ env.tg_version }}
+      aws_region: $aws_region
+      aws_caller_identity: $aws_caller_identity
+      tf_version: $tf_version
+      tg_version: $env.tg_version
       deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
 
   production:
@@ -46,8 +46,8 @@ jobs:
     with:
       tg_dir: 'live/prod'
       environment: 'prod'
-      aws_region: ${{ env.aws_region }}
-      aws_caller_identity: ${{ env.aws_caller_identity }}
-      tf_version: ${{ env.tf_version }}
-      tg_version: ${{ env.tg_version }}
+      aws_region: $aws_region
+      aws_caller_identity: $aws_caller_identity
+      tf_version: $tf_version
+      tg_version: $tg_version
       deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
