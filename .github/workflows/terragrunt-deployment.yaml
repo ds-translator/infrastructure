@@ -18,7 +18,7 @@ env:
 jobs:
   develop:
     if: github.ref == 'refs/heads/develop'
-    uses: ./.github/workflows/terragrunt-common.yml
+    uses: ./.github/workflows/terragrunt-common.yaml
     with:
       tg_dir: 'live/dev'
       environment: 'dev'
@@ -30,7 +30,7 @@ jobs:
 
   staging:
     if: github.ref == 'refs/heads/release'
-    uses: ./.github/workflows/terragrunt-common.yml
+    uses: ./.github/workflows/terragrunt-common.yaml
     with:
       tg_dir: 'live/stage'
       environment: 'stage'
@@ -42,7 +42,7 @@ jobs:
 
   production:
     if: github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/terragrunt-common.yml
+    uses: ./.github/workflows/terragrunt-common.yaml
     with:
       tg_dir: 'live/prod'
       environment: 'prod'
