@@ -37,19 +37,7 @@ module "eks" {
             }
           }
         }
-      }
-      infrastructure = {
-        principal_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.project_id}-${var.environment}-github-infrastructure-role"
-
-        policy_associations = {
-          this = {
-            policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
-            access_scope = {
-              type       = "cluster"
-            }
-          }
-        }
-      }         
+      }     
       deployment = {
         principal_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.project_id}-${var.environment}-github-deployment-role"
 
