@@ -14,9 +14,8 @@ module "lb_role" {
   }
 }
 
-resource "aws_iam_role_policy" "acm_policy" {
+resource "aws_iam_policy" "acm_policy" {
   name   = "ACMCertificateAccessPolicy"
-  role   = module.lb_role.iam_role_unique_id 
   policy = jsonencode({
     Version   = "2012-10-17"
     Statement = [
@@ -32,6 +31,11 @@ resource "aws_iam_role_policy" "acm_policy" {
       }
     ]
   })
+}
+
+resource "aws_iam_role_policy_attachment" "role_policy_attachment" {
+  role       = module.lb_role.iam_role_name
+  policy_arn = aws_iam_policy.acm_policy.arn
 }
 
 data "aws_eks_cluster" "eks_cluster" {
