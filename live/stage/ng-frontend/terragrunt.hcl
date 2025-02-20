@@ -23,7 +23,7 @@ dependency "eks_cluster" {
   config_path = "../eks-cluster"
 
   mock_outputs = {
-    cluster_name = "dst-dev-cluster"
+    cluster_name = "dst-stage-cluster"
   }
 }
 
