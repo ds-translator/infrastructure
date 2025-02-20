@@ -5,7 +5,7 @@ include {
 dependency "security" {
   config_path = "../security"
 
-  mock_outputs_allowed_terraform_commands = ["validate"]
+  # mock_outputs_allowed_terraform_commands = ["validate"]
 
   mock_outputs = {
     node_role_name = "mock-eks-node-group-role"
