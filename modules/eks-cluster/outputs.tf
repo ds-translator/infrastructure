@@ -24,5 +24,6 @@ output "cluster_token" {
 }
 
 output "oidc_provider_arn" {
-  value = module.eks.oidc_provider_arn
+  description = "The OIDC Provider ARN"
+  value       = module.eks.oidc_provider_arn
 }
