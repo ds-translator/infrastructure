@@ -22,7 +22,7 @@ jobs:
     with:
       tg_dir: 'live/dev'
       environment: 'dev'
-      aws_region: $aws_region
+      aws_region: ${{ env.aws_region }}
       aws_caller_identity: $aws_caller_identity
       tf_version: $tf_version
       tg_version: $tg_version
