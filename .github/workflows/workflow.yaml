@@ -64,11 +64,11 @@ jobs:
           tg_command: 'run-all apply --terragrunt-exclude-dir=alb'
 
       - name: Execute Basic Cluster Functionality Tests
+        if: contains(github.event.head_commit.message, '[deploy]')      
         run: |
           aws eks update-kubeconfig --region ${{ env.aws_region }} --name dst-${{ env.environment }}-cluster
-          
-          # Check that all nodes are in Ready state.
-          echo "Checking node status..."
+
+          echo ">> Checking node status..."
           NOT_READY=$(kubectl get nodes --no-headers | awk '$2 != "Ready"{print $1}' | wc -l)
           if [ "$NOT_READY" -gt 0 ]; then
             echo "Error: One or more nodes are not Ready. Failing the workflow."
@@ -77,8 +77,7 @@ jobs:
             echo "All nodes are Ready."
           fi
 
-          # Optionally, check that system pods are running properly.
-          echo "Checking essential pods in kube-system namespace..."
+          echo ">> Checking essential pods in kube-system namespace..."
           NOT_RUNNING=$(kubectl get pods -n kube-system --no-headers | awk '$3 != "Running"{print $1}' | wc -l)
           if [ "$NOT_RUNNING" -gt 0 ]; then
             echo "Error: One or more essential pods in kube-system are not Running. Failing the workflow."
@@ -87,44 +86,77 @@ jobs:
             echo "All essential pods in kube-system are Running."
           fi
 
-  # staging:
-  #   name: Staging Phase (Deploy & Additional Tests)
-  #   runs-on: ubuntu-latest
-  #   if: github.ref == 'refs/heads/release'
-  #   permissions:
-  #     id-token: write
-  #     contents: read
-  #   steps:
-  #     <<: *common-steps
+  staging:
+    name: Staging Phase (Deploy & Additional Tests)
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/release'
 
-  #     - name: Assume Role for Staging
-  #       uses: aws-actions/configure-aws-credentials@v2
-  #       with:
-  #         role-to-assume: arn:aws:iam::707809188586:role/dst-stage-github-infrastructure-role
-  #         aws-region: us-east-1
+    runs-on: ubuntu-latest
 
-  #     - name: Determine Deployment Directory
-  #       id: set-dir
-  #       run: |
-  #         ENV_DIR="live/stage"
-  #         echo "Deployment environment: $ENV_DIR"
-  #         echo "env_dir=$ENV_DIR" >> $GITHUB_OUTPUT
+    env:
+      tg_dir: 'live/stage'
+      environment: 'stage'
 
-  #     - name: Terragrunt Init & Plan (Recursive)
-  #       working-directory: ${{ steps.set-dir.outputs.env_dir }}
-  #       run: |
-  #         terragrunt run-all init -reconfigure --terragrunt-non-interactive --terragrunt-exclude-dir=alb
-  #         terragrunt run-all plan --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: 'Checkout Code Repository'
+        uses: actions/checkout@main    
 
-  #     - name: Terragrunt Apply (Staging)
-  #       working-directory: ${{ steps.set-dir.outputs.env_dir }}
-  #       run: |
-  #         terragrunt run-all apply -auto-approve --terragrunt-non-interactive --terragrunt-exclude-dir=alb
+      - name: Configure AWS Credentials via IAM Role
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::${{ env.aws_caller_identity }}:role/dst-${{ env.environment }}-github-infrastructure-role
+          aws-region: ${{ env.aws_region }}
 
-  #     - name: Run Additional Staging Tests
-  #       run: |
-  #         echo "Running additional tests on staging..."
-  #         # Add your staging test commands here
+      - name: Validate Terragrunt HCL Files
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.tg_dir }}
+          tg_command: 'run-all validate --terragrunt-exclude-dir=alb'
+
+      - name: Generate Terraform Plan
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.tg_dir }}
+          tg_command: 'run-all plan --terragrunt-exclude-dir=alb'
+
+      - name: Deploy Functional Development Environment
+        if: contains(github.event.head_commit.message, '[deploy]')      
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.tg_dir }}
+          tg_command: 'run-all apply --terragrunt-exclude-dir=alb'
+
+      - name: Execute Basic Cluster Functionality Tests
+        if: contains(github.event.head_commit.message, '[deploy]')      
+        run: |
+          aws eks update-kubeconfig --region ${{ env.aws_region }} --name dst-${{ env.environment }}-cluster
+          
+          echo ">> Checking node status..."
+          NOT_READY=$(kubectl get nodes --no-headers | awk '$2 != "Ready"{print $1}' | wc -l)
+          if [ "$NOT_READY" -gt 0 ]; then
+            echo "Error: One or more nodes are not Ready. Failing the workflow."
+            exit 1
+          else
+            echo "All nodes are Ready."
+          fi
+
+          echo ">> Checking essential pods in kube-system namespace..."
+          NOT_RUNNING=$(kubectl get pods -n kube-system --no-headers | awk '$3 != "Running"{print $1}' | wc -l)
+          if [ "$NOT_RUNNING" -gt 0 ]; then
+            echo "Error: One or more essential pods in kube-system are not Running. Failing the workflow."
+            exit 1
+          else
+            echo "All essential pods in kube-system are Running."
+          fi
 
   # production:
   #   name: Production Phase (Deploy on PR)

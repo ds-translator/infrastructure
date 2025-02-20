@@ -33,7 +33,7 @@ terraform {
 
 inputs = {
   node_role_arn    = dependency.security.outputs.node_role_arn
-  cluster_name     = dependency.eks_cluster.outputs.cluster_name 
+  cluster_name     = dependency.eks_cluster.outputs.cluster_name
   
   node_group_name  = "frontend"
   subnet_ids       = dependency.networking.outputs.private_subnets
