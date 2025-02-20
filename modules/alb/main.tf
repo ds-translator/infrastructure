@@ -1,7 +1,7 @@
 provider "aws" {
   region = var.region
 }
-
+ 
 data "aws_caller_identity" "current" {}
 
 module "lb_role" {
