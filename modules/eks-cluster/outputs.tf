@@ -24,5 +24,5 @@ output "cluster_token" {
 }
 
 output "oidc_provider_arn" {
-  value = aws_iam_openid_connect_provider.oidc_provider.arn
+  value = module.eks.oidc_provider_arn
 }
