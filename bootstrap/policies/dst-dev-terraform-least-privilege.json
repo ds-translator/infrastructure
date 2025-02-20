@@ -171,6 +171,14 @@
         {
             "Effect": "Allow",
             "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/security/terraform.tfstate"
+        },        
+        {
+            "Effect": "Allow",
+            "Action": [
                 "iam:PassRole"
             ],
             "Resource": "arn:aws:iam::${aws_caller_identity}:role/${project_id}-${environment}-eks-role"
