@@ -21,7 +21,7 @@ module "eks" {
 
   access_entries = {
       super-admin = {
-        principal_arn = "arn:aws:iam::707809188586:user/dst-admin"
+        principal_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/dst-admin"
 
         policy_associations = {
           this = {
@@ -32,18 +32,30 @@ module "eks" {
           }
         }
       }
-      # deployment = {
-      #   principal_arn = "arn:aws:iam::707809188586:user/dst-admin"
+      infrastructure = {
+        principal_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.project_id}-${var.environment}-github-infrastructure-role"
 
-      #   policy_associations = {
-      #     this = {
-      #       policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
-      #       access_scope = {
-      #         type       = "cluster"
-      #       }
-      #     }
-      #   }
-      # }      
+        policy_associations = {
+          this = {
+            policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
+            access_scope = {
+              type       = "cluster"
+            }
+          }
+        }
+      }         
+      deployment = {
+        principal_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.project_id}-${var.environment}-github-deployment-role"
+
+        policy_associations = {
+          this = {
+            policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
+            access_scope = {
+              type       = "cluster"
+            }
+          }
+        }
+      }      
     }
 
   tags = {
