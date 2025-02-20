@@ -33,6 +33,13 @@ jobs:
       - name: Checkout Code Repository
         uses: actions/checkout@v3
 
+      - name: Echo AWS Variables
+        run: |
+          echo "AWS Region: ${{ inputs.aws_region }}"
+          echo "AWS Caller Identity: ${{ inputs.aws_caller_identity }}"
+          echo "Environment: ${{ inputs.environment }}"
+
+
       - name: Configure AWS Credentials via IAM Role
         uses: aws-actions/configure-aws-credentials@v2
         with:
