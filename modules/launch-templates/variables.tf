@@ -1,3 +1,8 @@
+variable "region" {
+  description = "The AWS region"
+  type        = string
+}
+
 variable "environment" {
   description = "The environment (dev, stage, prod, etc.) for tagging."
   type        = string

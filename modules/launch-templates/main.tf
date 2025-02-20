@@ -1,3 +1,7 @@
+provider "aws" {
+  region = var.region
+}
+
 resource "aws_launch_template" "custom_template" {
   name = "${var.project_id}-${var.environment}-custom-template"
 

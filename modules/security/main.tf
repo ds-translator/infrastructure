@@ -1,3 +1,7 @@
+provider "aws" {
+  region = var.region
+}
+
 resource "aws_iam_role" "node_group_role" {
   name = "${var.project_id}-${var.environment}-eks-ng-role"
 

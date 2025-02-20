@@ -1,3 +1,6 @@
+provider "aws" {
+  region = var.region
+}
 
 resource "aws_eks_node_group" "this" {
   cluster_name    = var.cluster_name

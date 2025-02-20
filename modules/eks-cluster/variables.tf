@@ -7,6 +7,10 @@
 #   description = "The ARN of the IAM role that EKS uses to manage cluster resources."
 #   type        = string
 # }
+variable "region" {
+  description = "The AWS region"
+  type        = string
+}
 
 variable "vpc_id" {
   description = "The ID of the VPC to use."

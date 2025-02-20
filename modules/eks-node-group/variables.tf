@@ -1,3 +1,8 @@
+variable "region" {
+  description = "The AWS region"
+  type        = string
+}
+
 variable "cluster_name" {
   description = "The name of the EKS cluster to attach the node group to."
   type        = string
