@@ -16,7 +16,7 @@ module "lb_role" {
 
 resource "aws_iam_role_policy" "acm_policy" {
   name   = "ACMCertificateAccessPolicy"
-  role   = lb_role.iam_role_unique_id 
+  role   = module.lb_role.iam_role_unique_id 
   policy = jsonencode({
     Version   = "2012-10-17"
     Statement = [
