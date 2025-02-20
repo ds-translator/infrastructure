@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 module "lb_role" {
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
@@ -10,6 +12,24 @@ module "lb_role" {
       namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
     }
   }
+
+inline_policy = {
+    ACMCertificateAccess = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Sid    = "AllowACMCertificateAccess"
+          Effect = "Allow"
+          Action = [
+            "acm:DescribeCertificate",
+            "acm:GetCertificate",
+            "acm:ListCertificates"
+          ]
+          Resource = "arn:aws:acm:${var.region}:${data.aws_caller_identity.current.account_id}:certificate/*"
+        }
+      ]
+    })
+  }  
 }
 
 data "aws_eks_cluster" "eks_cluster" {
