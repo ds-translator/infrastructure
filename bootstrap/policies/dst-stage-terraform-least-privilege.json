@@ -92,6 +92,14 @@
         {
             "Effect": "Allow",
             "Action": [
+                "iam:GetRole"
+            ],
+            "Resource": "*"
+
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
                 "ec2:CreateSubnet"
             ],
             "Resource": [
@@ -171,6 +179,14 @@
         {
             "Effect": "Allow",
             "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/security/terraform.tfstate"
+        },        
+        {
+            "Effect": "Allow",
+            "Action": [
                 "iam:PassRole"
             ],
             "Resource": "arn:aws:iam::${aws_caller_identity}:role/${project_id}-${environment}-eks-role"
@@ -243,7 +259,12 @@
                 "eks:DisassociateAccessPolicy",
                 "eks:ListAssociatedAccessPolicies"
             ],
-            "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:access-entry/${project_id}-${environment}-cluster/user/${aws_caller_identity}/${project_id}-github/*"
+            "Resource": [
+                "arn:aws:eks:${aws_region}:${aws_caller_identity}:access-entry/${project_id}-${environment}-cluster/user/${aws_caller_identity}/${project_id}-github/*",
+                "arn:aws:eks:${aws_region}:${aws_caller_identity}:access-entry/${project_id}-${environment}-cluster/user/${aws_caller_identity}/${project_id}-admin/*",
+                "arn:aws:eks:${aws_region}:${aws_caller_identity}:access-entry/${project_id}-${environment}-cluster/role/${aws_caller_identity}/${project_id}-${environment}-github-deployment-role/*",
+                "arn:aws:eks:${aws_region}:${aws_caller_identity}:access-entry/${project_id}-${environment}-cluster/role/${aws_caller_identity}/${project_id}-${environment}-github-infrastructure-role/*"
+            ]
         },
         {
             "Sid": "AllowLaunchInstancesWithTemplate",

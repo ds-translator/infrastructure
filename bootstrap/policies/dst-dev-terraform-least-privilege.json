@@ -92,6 +92,14 @@
         {
             "Effect": "Allow",
             "Action": [
+                "iam:GetRole"
+            ],
+            "Resource": "*"
+
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
                 "ec2:CreateSubnet"
             ],
             "Resource": [

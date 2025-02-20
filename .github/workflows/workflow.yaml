@@ -63,10 +63,12 @@ jobs:
           tg_dir: ${{ env.tg_dir }}
           tg_command: 'run-all apply --terragrunt-exclude-dir=alb'
 
-      - name: Execute Basic Development Tests
+      - name: Execute Basic Cluster Functionality Tests
         run: |
-          echo "To-Do: Running basic tests for dev environment..."
-          # Add your test commands here
+          aws eks update-kubeconfig --region ${{ env.aws_region }} --name dst-${{ env.environment }}-cluster
+
+          kubectl cluster-info
+          kubectl get nodes
 
   # staging:
   #   name: Staging Phase (Deploy & Additional Tests)
