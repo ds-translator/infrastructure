@@ -9,16 +9,14 @@ on:
     branches:
       - main
 
-env: &common-env
-  tf_version: '1.10.5'
-  tg_version: '0.67.0'
-  aws_region: 'us-east-1'
-  aws_caller_identity: '707809188586'
-
 jobs:
   develop:
     if: github.ref == 'refs/heads/develop'
-    env: *common-env    
+    env:
+      tf_version: '1.10.5'
+      tg_version: '0.67.0'
+      aws_region: 'us-east-1'
+      aws_caller_identity: '707809188586'  
     uses: ./.github/workflows/terragrunt-common.yaml
     with:
       tg_dir: 'live/dev'
@@ -31,6 +29,11 @@ jobs:
 
   staging:
     if: github.ref == 'refs/heads/release'
+    env:
+      tf_version: '1.10.5'
+      tg_version: '0.67.0'
+      aws_region: 'us-east-1'
+      aws_caller_identity: '707809188586'    
     uses: ./.github/workflows/terragrunt-common.yaml
     with:
       tg_dir: 'live/stage'
@@ -43,6 +46,11 @@ jobs:
 
   production:
     if: github.ref == 'refs/heads/main'
+    env:
+      tf_version: '1.10.5'
+      tg_version: '0.67.0'
+      aws_region: 'us-east-1'
+      aws_caller_identity: '707809188586'      
     uses: ./.github/workflows/terragrunt-common.yaml
     with:
       tg_dir: 'live/prod'
