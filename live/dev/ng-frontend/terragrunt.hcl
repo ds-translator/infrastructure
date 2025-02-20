@@ -2,14 +2,6 @@ include {
   path = find_in_parent_folders("root.hcl")
 }
 
-dependency "launch_templates" {
-  config_path = "../launch-templates"
-
-  mock_outputs = {
-    launch_template_id = "lt-23jk1091"
-  }
-}
-
 dependency "security" {
   config_path = "../security"
 
@@ -53,7 +45,4 @@ inputs = {
   ec2_ssh_key      = ""                
   source_security_group_ids = []        
   max_unavailable  = 1
-
-  launch_template_id = dependency.launch_templates.outputs.launch_template_id
-
 }

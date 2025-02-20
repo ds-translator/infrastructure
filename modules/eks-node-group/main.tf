@@ -15,7 +15,7 @@ resource "aws_eks_node_group" "this" {
   }
 
   launch_template {
-    id      = var.launch_template_id
+    name      = "${var.project_id}-eks-node-template"
     version = "$Latest" 
   }
 
