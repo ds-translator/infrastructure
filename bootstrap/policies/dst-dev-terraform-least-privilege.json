@@ -228,7 +228,8 @@
             "Effect": "Allow",
             "Action": [
                 "eks:DescribeNodegroup",
-                "eks:DeleteNodegroup"
+                "eks:DeleteNodegroup",
+                "eks:UpdateNodegroupVersion"
             ],
             "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:nodegroup/*/${project_id}-${environment}-eks-ng-frontend/*"
         },
