@@ -79,9 +79,8 @@
                 "iam:TagPolicy",
                 "iam:PassRole",
                 "iam:ListInstanceProfilesForRole",
-                "iam:DeleteRole"
-
-
+                "iam:DeleteRole",
+                "iam:PutRolePolicy"
             ],
             "Resource": [
                 "arn:aws:iam::${aws_caller_identity}:role/${project_id}-${environment}-*",
