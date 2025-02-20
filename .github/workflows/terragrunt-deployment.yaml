@@ -12,51 +12,36 @@ on:
 jobs:
   develop:
     if: github.ref == 'refs/heads/develop'
-    env:
-      tf_version: '1.10.5'
-      tg_version: '0.67.0'
-      aws_region: 'us-east-1'
-      aws_caller_identity: '707809188586'  
     uses: ./.github/workflows/terragrunt-common.yaml
     with:
       tg_dir: 'live/dev'
       environment: 'dev'
-      aws_region: ${{ env.aws_region }}
-      aws_caller_identity: ${{ env.aws_caller_identity }}
-      tf_version: ${{ env.tf_version }}
-      tg_version: ${{ env.tg_version }}
+      aws_region: 'us-east-1'
+      aws_caller_identity: '707809188586'
+      tf_version: '1.10.5'
+      tg_version: '0.67.0'
       deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
 
   staging:
-    if: github.ref == 'refs/heads/release'
-    env:
-      tf_version: '1.10.5'
-      tg_version: '0.67.0'
-      aws_region: 'us-east-1'
-      aws_caller_identity: '707809188586'    
+    if: github.ref == 'refs/heads/release'    
     uses: ./.github/workflows/terragrunt-common.yaml
     with:
       tg_dir: 'live/stage'
       environment: 'stage'
-      aws_region: $aws_region
-      aws_caller_identity: $aws_caller_identity
-      tf_version: $tf_version
-      tg_version: $env.tg_version
+      aws_region: 'us-east-1'
+      aws_caller_identity: '707809188586'
+      tf_version: '1.10.5'
+      tg_version: '0.67.0'
       deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
 
   production:
-    if: github.ref == 'refs/heads/main'
-    env:
-      tf_version: '1.10.5'
-      tg_version: '0.67.0'
-      aws_region: 'us-east-1'
-      aws_caller_identity: '707809188586'      
+    if: github.ref == 'refs/heads/main'      
     uses: ./.github/workflows/terragrunt-common.yaml
     with:
       tg_dir: 'live/prod'
       environment: 'prod'
-      aws_region: $aws_region
-      aws_caller_identity: $aws_caller_identity
-      tf_version: $tf_version
-      tg_version: $tg_version
+      aws_region: 'us-east-1'
+      aws_caller_identity: '707809188586'
+      tf_version: '1.10.5'
+      tg_version: '0.67.0'
       deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
