@@ -53,32 +53,6 @@
         {
             "Effect": "Allow",
             "Action": [
-                "s3:GetObject",
-                "s3:GetObjectVersion"
-            ],
-            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/launch-templates/terraform.tfstate"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:GetObjectVersion",
-                "s3:ListMultipartUploadParts",
-                "s3:PutObject"
-            ],
-            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/networking/terraform.tfstate"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:GetObjectVersion"
-            ],
-            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/security/terraform.tfstate"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
                 "ec2:CreateVpc",
                 "ec2:ModifyVpcAttribute",
                 "ec2:DescribeVpcAttribute"
@@ -192,7 +166,7 @@
                 "s3:ListMultipartUploadParts",
                 "s3:PutObject"
             ],
-            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/eks-cluster/terraform.tfstate"
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/*/terraform.tfstate"
         },
         {
             "Effect": "Allow",
@@ -218,24 +192,6 @@
                 "iam:DeleteOpenIDConnectProvider"
             ],
             "Resource": "arn:aws:iam::${aws_caller_identity}:oidc-provider/*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:GetObjectVersion",
-				"s3:PutObject"
-            ],
-            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/ng-frontend/terraform.tfstate"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:GetObjectVersion",
-				"s3:PutObject"
-            ],
-            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/ng-gpu/terraform.tfstate"
         },
         {
             "Effect": "Allow",
@@ -267,14 +223,6 @@
                 "eks:DeleteNodegroup"
             ],
             "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:nodegroup/*/${project_id}-${environment}-eks-ng-gpu/*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:GetObjectVersion"
-            ],
-            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/alb/terraform.tfstate"
         },
         {
             "Effect": "Allow",
