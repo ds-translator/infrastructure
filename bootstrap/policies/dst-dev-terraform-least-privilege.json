@@ -243,7 +243,12 @@
                 "eks:DisassociateAccessPolicy",
                 "eks:ListAssociatedAccessPolicies"
             ],
-            "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:access-entry/${project_id}-${environment}-cluster/user/${aws_caller_identity}/${project_id}-github/*"
+            "Resource": [
+                "arn:aws:eks:${aws_region}:${aws_caller_identity}:access-entry/${project_id}-${environment}-cluster/user/${aws_caller_identity}/${project_id}-github/*",
+                "arn:aws:eks:${aws_region}:${aws_caller_identity}:access-entry/${project_id}-${environment}-cluster/user/${aws_caller_identity}/${project_id}-admin/*",
+                "arn:aws:eks:${aws_region}:${aws_caller_identity}:access-entry/${project_id}-${environment}-cluster/role/${aws_caller_identity}/${project_id}-${environment}-github-deployment-role/*",
+                "arn:aws:eks:${aws_region}:${aws_caller_identity}:access-entry/${project_id}-${environment}-cluster/role/${aws_caller_identity}/${project_id}-${environment}-github-infrastructure-role/*"
+            ]
         },
         {
             "Sid": "AllowLaunchInstancesWithTemplate",
