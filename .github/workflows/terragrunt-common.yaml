@@ -41,7 +41,7 @@ jobs:
 
 
       - name: Configure AWS Credentials via IAM Role
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: arn:aws:iam::${{ inputs.aws_caller_identity }}:role/dst-${{ inputs.environment }}-github-infrastructure-role
           aws-region: ${{ inputs.aws_region }}
