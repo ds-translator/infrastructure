@@ -33,6 +33,8 @@ c2pkbmFrc2R2bmtqc2ZkdnNkZmJhc2R2YXNmdnNkZmJ2c2RmYnNkZmJzZGZic2RmYmRzZmI=
 EOF
     oidc_provider_arn                  = "arn:aws:iam::123456789012:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/EXAMPLE"
   }
+
+  mock_outputs_merge_strategy_with_state = "shallow"
 }
 
 terraform {
