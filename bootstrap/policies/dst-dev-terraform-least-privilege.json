@@ -82,7 +82,8 @@
                 "iam:DeleteRole",
                 "iam:PutRolePolicy",
                 "iam:DeletePolicy",
-                "iam:UpdateAssumeRolePolicy"
+                "iam:UpdateAssumeRolePolicy",
+                "iam:CreatePolicyVersion"
             ],
             "Resource": [
                 "arn:aws:iam::${aws_caller_identity}:role/${project_id}-${environment}-*",

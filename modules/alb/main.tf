@@ -20,7 +20,7 @@ module "lb_role" {
 }
 
 resource "aws_iam_policy" "acm_policy" {
-  name   = "ACMCertificateAccessPolicy"
+  name = "${var.project_id}-${var.environment}-eks-alb-certificate-access-policy"
   policy = jsonencode({
     Version   = "2012-10-17"
     Statement = [
