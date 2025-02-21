@@ -7,7 +7,7 @@ data "aws_caller_identity" "current" {}
 module "lb_role" {
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
-  role_name                              = "${var.project_id}-${var.environment}-eks-lb-role"
+  role_name                              = "${var.project_id}-${var.environment}-eks-alb-role"
   attach_load_balancer_controller_policy = true
 
   oidc_providers = {
