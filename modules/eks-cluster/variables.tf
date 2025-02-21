@@ -25,7 +25,7 @@ variable "subnet_ids" {
 variable "kubernetes_version" {
   description = "The Kubernetes version for the EKS cluster."
   type        = string
-  default     = "1.31"  # Adjust as needed
+  default     = "1.32"  # Adjust as needed
 }
 
 variable "environment" {
