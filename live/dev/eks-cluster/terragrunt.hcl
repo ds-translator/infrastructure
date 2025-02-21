@@ -10,6 +10,8 @@ dependency "networking" {
     vpc_id = "vpc-1939479"
     private_subnets = ["subnet-12345678", "subnet-87654321"]
   }  
+  mock_outputs_allowed_terraform_commands = ["validate", "plan"]
+  # mock_outputs_merge_strategy_with_state = no_merge
 }
 
 terraform {
