@@ -18,7 +18,6 @@ terraform {
 
 inputs = {
   vpc_id  = dependency.networking.outputs.vpc_id
-  # subnet_ids         = dependency.networking.outputs.private_subnets
-  subnet_ids = lookup(dependency.networking.outputs, "private_subnets", [])  
+  subnet_ids         = dependency.networking.outputs.private_subnets
   kubernetes_version = "1.32"
 }
