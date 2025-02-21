@@ -43,13 +43,13 @@ jobs:
           role-to-assume: arn:aws:iam::${{ inputs.aws_caller_identity }}:role/dst-${{ inputs.environment }}-github-infrastructure-role
           aws-region: ${{ inputs.aws_region }}
 
-      - name: Refresh remote state
-        uses: gruntwork-io/terragrunt-action@v2
-        with:
-          tf_version: ${{ inputs.tf_version }}
-          tg_version: ${{ inputs.tg_version }}
-          tg_dir: ${{ inputs.tg_dir }}
-          tg_command: 'run-all refresh'
+      # - name: Refresh remote state
+      #   uses: gruntwork-io/terragrunt-action@v2
+      #   with:
+      #     tf_version: ${{ inputs.tf_version }}
+      #     tg_version: ${{ inputs.tg_version }}
+      #     tg_dir: ${{ inputs.tg_dir }}
+      #     tg_command: 'run-all refresh'
 
       - name: Validate Terragrunt HCL Files
         uses: gruntwork-io/terragrunt-action@v2
