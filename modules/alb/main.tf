@@ -10,7 +10,7 @@ module "lb_role" {
   role_name                              = "${var.project_id}-${var.environment}-eks-alb-role"
   attach_load_balancer_controller_policy = true
   allow_self_assume_role = true
-  
+
   oidc_providers = {
     main = {
       provider_arn               = var.oidc_provider_arn
@@ -30,7 +30,9 @@ resource "aws_iam_policy" "acm_policy" {
         Action   = [
           "acm:DescribeCertificate",
           "acm:GetCertificate",
-          "acm:ListCertificates"
+          "acm:ListCertificates",
+          "acm:ListTagsForCertificate"
+
         ]
         Resource = "arn:aws:acm:${var.region}:${data.aws_caller_identity.current.account_id}:certificate/*"
       }
