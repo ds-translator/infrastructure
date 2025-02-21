@@ -49,7 +49,7 @@ jobs:
       #     tf_version: ${{ inputs.tf_version }}
       #     tg_version: ${{ inputs.tg_version }}
       #     tg_dir: ${{ inputs.tg_dir }}
-      #     tg_command: 'run-all init -reconfigure'
+      #     tg_command: 'run-all init -reconfigure --queue-exclude-dir'
 
       # - name: Refresh remote state
       #   uses: gruntwork-io/terragrunt-action@v2
@@ -57,7 +57,7 @@ jobs:
       #     tf_version: ${{ inputs.tf_version }}
       #     tg_version: ${{ inputs.tg_version }}
       #     tg_dir: ${{ inputs.tg_dir }}
-      #     tg_command: 'run-all refresh'
+      #     tg_command: 'run-all refresh --queue-exclude-dir'
 
       # - name: Validate Terragrunt HCL Files
       #   uses: gruntwork-io/terragrunt-action@v2
@@ -65,7 +65,7 @@ jobs:
       #     tf_version: ${{ inputs.tf_version }}
       #     tg_version: ${{ inputs.tg_version }}
       #     tg_dir: ${{ inputs.tg_dir }}
-      #     tg_command: 'run-all validate'
+      #     tg_command: 'run-all validate --queue-exclude-dir'
 
       - name: Generate Terraform Plan
         uses: gruntwork-io/terragrunt-action@v2
@@ -73,7 +73,7 @@ jobs:
           tf_version: ${{ inputs.tf_version }}
           tg_version: ${{ inputs.tg_version }}
           tg_dir: ${{ inputs.tg_dir }}
-          tg_command: 'run-all plan'
+          tg_command: 'run-all plan --queue-exclude-dir'
 
       - name: Deploy Functional Environment
         if: ${{ inputs.deploy }}
