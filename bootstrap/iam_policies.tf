@@ -30,3 +30,32 @@ resource "aws_iam_role_policy_attachment" "github_actions_infrastructure_attachm
   role       = aws_iam_role.github_actions_infrastructure_role[each.key].name
   policy_arn = aws_iam_policy.github_actions_infrastructure_policy[each.key].arn
 }
+
+resource "aws_iam_policy" "github_actions_deployment_policy" {
+  for_each = toset(var.environments)
+
+  name        = "${var.project_id}-${each.key}-github-deployment-policy"
+  description = "Policy for GitHub Actions deployment in ${each.key}"
+
+  policy = templatefile(
+    "${path.module}/policies/dst-${each.key}-deployment-least-privilege.json",
+    {
+      aws_caller_identity    = data.aws_caller_identity.current.account_id
+      environment            = each.key
+      aws_region             = var.aws_region
+      project_id             = var.project_id
+    }
+  )
+  tags = {
+    Environment = each.key
+    Project     = var.project_name
+    Terraform   = true
+  }  
+}
+
+resource "aws_iam_role_policy_attachment" "github_actions_deployment_attachment" {
+  for_each = toset(var.environments)
+
+  role       = aws_iam_role.github_actions_deployment_role[each.key].name
+  policy_arn = aws_iam_policy.github_actions_deployment_policy[each.key].arn
+}
