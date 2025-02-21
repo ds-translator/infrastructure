@@ -73,7 +73,7 @@ jobs:
           tf_version: ${{ inputs.tf_version }}
           tg_version: ${{ inputs.tg_version }}
           tg_dir: ${{ inputs.tg_dir }}
-          tg_command: 'run-all plan --exclude-dir alb'
+          tg_command: 'run-all plan --terragrunt-exclude-dir alb'
 
       - name: Deploy Functional Environment
         if: ${{ inputs.deploy }}
