@@ -94,6 +94,15 @@
         {
             "Effect": "Allow",
             "Action": [
+                "iam:DeletePolicy"
+            ],
+            "Resource": "arn:aws:iam::${aws_caller_identity}:policy/ACMCertificateAccessPolicy"
+
+        },
+        
+        {
+            "Effect": "Allow",
+            "Action": [
                 "iam:GetRole",
                 "iam:ListPolicyVersions"
             ],
