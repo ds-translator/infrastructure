@@ -17,7 +17,7 @@ dependency "networking" {
 
 dependency "eks-cluster" {
 
-  mock_outputs_allowed_terraform_commands = ["validate"]
+  # mock_outputs_allowed_terraform_commands = ["validate"]
 
   # Adjust the path according to your directory structure.
   config_path = "../eks-cluster"
