@@ -80,7 +80,8 @@
                 "iam:PassRole",
                 "iam:ListInstanceProfilesForRole",
                 "iam:DeleteRole",
-                "iam:PutRolePolicy"
+                "iam:PutRolePolicy",
+                "iam:DeletePolicy"
             ],
             "Resource": [
                 "arn:aws:iam::${aws_caller_identity}:role/${project_id}-${environment}-*",
