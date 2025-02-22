@@ -22,3 +22,8 @@ output "deployment_roles" {
 #   description = "ARNs of the deployment policies by environment"
 #   value       = { for env, policy in aws_iam_policy.github_actions_deployment_policy : env => policy.arn }
 # }
+
+output "nameservers" {
+  value       = aws_route53_zone.dst_hosted_zone.name_servers
+  description = "The list of nameservers for the hosted zone"
+}
