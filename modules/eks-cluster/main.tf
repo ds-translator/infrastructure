@@ -43,7 +43,7 @@ module "eks" {
 
         policy_associations = {
           this = {
-            policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
+            policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
             access_scope = {
               type       = "cluster"
             }
@@ -111,16 +111,16 @@ data "aws_eks_cluster_auth" "cluster" {
 #   url             = module.eks.cluster_oidc_issuer_url
 # }
 
-module "lb_role" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+# module "lb_role" {
+#   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
-  role_name                              = "${var.project_id}-${var.environment}-eks-alb-role"
-  attach_load_balancer_controller_policy = true
+#   role_name                              = "${var.project_id}-${var.environment}-eks-alb-role"
+#   attach_load_balancer_controller_policy = true
 
-  oidc_providers = {
-    main = {
-      provider_arn               = module.eks.oidc_provider
-      namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
-    }
-  }
-}
+#   oidc_providers = {
+#     main = {
+#       provider_arn               = module.eks.oidc_provider
+#       namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
+#     }
+#   }
+# }

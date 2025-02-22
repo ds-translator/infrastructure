@@ -43,13 +43,29 @@ jobs:
           role-to-assume: arn:aws:iam::${{ inputs.aws_caller_identity }}:role/dst-${{ inputs.environment }}-github-infrastructure-role
           aws-region: ${{ inputs.aws_region }}
 
-      - name: Validate Terragrunt HCL Files
-        uses: gruntwork-io/terragrunt-action@v2
-        with:
-          tf_version: ${{ inputs.tf_version }}
-          tg_version: ${{ inputs.tg_version }}
-          tg_dir: ${{ inputs.tg_dir }}
-          tg_command: 'run-all validate --terragrunt-exclude-dir=alb'
+      # - name: Reconfigure Terragrunt Backends
+      #   uses: gruntwork-io/terragrunt-action@v2
+      #   with:
+      #     tf_version: ${{ inputs.tf_version }}
+      #     tg_version: ${{ inputs.tg_version }}
+      #     tg_dir: ${{ inputs.tg_dir }}
+      #     tg_command: 'run-all init -reconfigure'
+
+      # - name: Refresh remote state
+      #   uses: gruntwork-io/terragrunt-action@v2
+      #   with:
+      #     tf_version: ${{ inputs.tf_version }}
+      #     tg_version: ${{ inputs.tg_version }}
+      #     tg_dir: ${{ inputs.tg_dir }}
+      #     tg_command: 'run-all refresh'
+
+      # - name: Validate Terragrunt HCL Files
+      #   uses: gruntwork-io/terragrunt-action@v2
+      #   with:
+      #     tf_version: ${{ inputs.tf_version }}
+      #     tg_version: ${{ inputs.tg_version }}
+      #     tg_dir: ${{ inputs.tg_dir }}
+      #     tg_command: 'run-all validate --queue-exclude-dir=alb'
 
       - name: Generate Terraform Plan
         uses: gruntwork-io/terragrunt-action@v2
@@ -57,7 +73,7 @@ jobs:
           tf_version: ${{ inputs.tf_version }}
           tg_version: ${{ inputs.tg_version }}
           tg_dir: ${{ inputs.tg_dir }}
-          tg_command: 'run-all plan --terragrunt-exclude-dir=alb'
+          tg_command: 'run-all plan --terragrunt-exclude-dir alb'
 
       - name: Deploy Functional Environment
         if: ${{ inputs.deploy }}
@@ -66,7 +82,7 @@ jobs:
           tf_version: ${{ inputs.tf_version }}
           tg_version: ${{ inputs.tg_version }}
           tg_dir: ${{ inputs.tg_dir }}
-          tg_command: 'run-all apply --terragrunt-exclude-dir=alb'
+          tg_command: 'run-all apply'
 
       - name: Execute Basic Cluster Functionality Tests
         if: ${{ inputs.deploy }}
