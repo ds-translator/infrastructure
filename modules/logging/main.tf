@@ -39,25 +39,25 @@ resource "aws_iam_role" "eks_service_account" {
   assume_role_policy = data.aws_iam_policy_document.eks_assume_role_policy.json
 }
 
-# resource "aws_iam_role_policy" "cloudwatch_logging" {
-#   name   = "${var.project_id}-${var.environment}-eks-cloud-watch-logging-policy"
-#   role   = aws_iam_role.eks_service_account.name
-#   policy = jsonencode({
-#     Version = "2012-10-17",
-#     Statement = [
-#       {
-#         Sid    = "CloudWatchLogging",
-#         Effect = "Allow",
-#         Action = [
-#           "logs:CreateLogGroup",
-#           "logs:CreateLogStream",
-#           "logs:PutLogEvents"
-#         ],
-#         Resource = "*"
-#       }
-#     ]
-#   })
-# }
+resource "aws_iam_role_policy" "cloudwatch_logging" {
+  name   = "${var.project_id}-${var.environment}-eks-cloud-watch-logging-policy"
+  role   = aws_iam_role.eks_service_account.name
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Sid    = "CloudWatchLogging",
+        Effect = "Allow",
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
 
 # resource "kubernetes_service_account" "cloudwatch_agent" {
 #   metadata {
