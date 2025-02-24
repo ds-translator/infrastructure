@@ -1,40 +1,50 @@
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "sts:GetCallerIdentity",
-                "ec2:DescribeAvailabilityZones",
-                "ec2:DescribeVpcs",
-                "ec2:DescribeLaunchTemplates",
-                "ec2:DescribeLaunchTemplateVersions",
-                "ec2:DescribeNetworkAcls",
-                "ec2:DescribeRouteTables",
-                "ec2:DescribeSecurityGroups",
-                "ec2:DescribeSubnets",
-                "ec2:DescribeInternetGateways",
-                "ec2:DescribeAddresses",
-                "ec2:DescribeAddressesAttribute",
-                "ec2:DescribeNatGateways",
-                "eks:CreateCluster",
-                "iam:GetOpenIDConnectProvider",
-                "iam:TagOpenIDConnectProvider",
-                "iam:GetPolicy",
-                "iam:GetPolicyVersion"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "eks:DescribeCluster",
-                "eks:CreateAccessEntry",
-                "eks:DeleteCluster",
-                "eks:TagResource",
-                "eks:DescribeUpdate"
-            ],
-            "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:cluster/${project_id}-${environment}-cluster"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "sts:GetCallerIdentity",
+        "ec2:DescribeAvailabilityZones",
+        "ec2:DescribeVpcs",
+        "ec2:DescribeLaunchTemplates",
+        "ec2:DescribeLaunchTemplateVersions",
+        "ec2:DescribeNetworkAcls",
+        "ec2:DescribeRouteTables",
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeInternetGateways",
+        "ec2:DescribeAddresses",
+        "ec2:DescribeAddressesAttribute",
+        "ec2:DescribeNatGateways",
+        "eks:CreateCluster",
+        "iam:GetOpenIDConnectProvider",
+        "iam:TagOpenIDConnectProvider",
+        "iam:GetPolicy",
+        "iam:GetPolicyVersion"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "eks:DescribeCluster",
+        "eks:CreateAccessEntry",
+        "eks:DeleteCluster",
+        "eks:TagResource",
+        "eks:DescribeUpdate"
+      ],
+      "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:cluster/${project_id}-${environment}-cluster"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["route53:ChangeResourceRecordSets"],
+      "Resource": "arn:aws:route53:::hostedzone/Z070261916V9EDMTXGKYY"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["route53:GetChange"],
+      "Resource": "arn:aws:route53:::change/*"
+    }
+  ]
 }

@@ -3,15 +3,21 @@ include {
   path = find_in_parent_folders("root.hcl")
 }
 
+dependency "networking" {
+  config_path = "../networking"
+
+  mock_outputs = {
+    vpc_id = "vpc-1939479"
+    private_subnets = ["subnet-12345678", "subnet-87654321"]
+  }  
+}
+
 terraform {
-  source = "../../../eks-cluster"
+  source = "../../../modules/eks-cluster///"
 }
 
 inputs = {
-  project_name = "datascientest-translator"
-  environment = "prod"
-  node_count = 3
-  cidr = "10.50.0.0/16"
-  private_subnets = ["10.50.32.0/20", "10.50.48.0/20"]
-  public_subnets  = ["10.50.0.0/20", "10.50.16.0/20"]
+  vpc_id  = dependency.networking.outputs.vpc_id
+  subnet_ids         = dependency.networking.outputs.private_subnets
+  kubernetes_version = "1.32"
 }
