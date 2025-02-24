@@ -29,7 +29,7 @@ data "aws_iam_policy_document" "eks_assume_role_policy" {
     condition {
       test     = "StringEquals"
       variable = "${replace(var.oidc_provider_url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:${var.environment}:cloudwatch-agent"]
+      values   = ["system:serviceaccount:${var.environment}:deprec-cloudwatch-agent"]
     }
   }
 }
@@ -38,6 +38,7 @@ resource "aws_iam_role" "eks_service_account" {
   name               = "${var.project_id}-${var.environment}-eks-service-account-role"
   assume_role_policy = data.aws_iam_policy_document.eks_assume_role_policy.json
 }
+
 
 resource "aws_iam_role_policy" "cloudwatch_logging" {
   name   = "${var.project_id}-${var.environment}-eks-cloud-watch-logging-policy"
@@ -61,7 +62,7 @@ resource "aws_iam_role_policy" "cloudwatch_logging" {
 
 resource "kubernetes_service_account" "cloudwatch_agent" {
   metadata {
-    name      = "cloudwatch-agent"
+    name      = "deprec-cloudwatch-agent"
     namespace = var.environment
 
     annotations = {
