@@ -43,8 +43,8 @@ resource "aws_iam_role_policy" "cloudwatch_logging" {
 
 resource "kubernetes_service_account" "cloudwatch_agent" {
   metadata {
-    name      = "cloudwatch-agent"  # Same as above
-    namespace = var.environment          # Same as above
+    name      = "cloudwatch-agent"
+    namespace = var.environment
     labels = {
       "app.kubernetes.io/name"      = "cloudwatch-agent"
       "app.kubernetes.io/component" = "agent"

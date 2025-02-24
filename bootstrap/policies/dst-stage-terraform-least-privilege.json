@@ -71,6 +71,7 @@
             "Action": [
                 "iam:CreateRole",
                 "iam:GetRole",
+                "iam:GetRolePolicy",
                 "iam:ListRolePolicies",
                 "iam:ListAttachedRolePolicies",
                 "iam:AttachRolePolicy",
@@ -79,20 +80,32 @@
                 "iam:TagPolicy",
                 "iam:PassRole",
                 "iam:ListInstanceProfilesForRole",
-                "iam:DeleteRole"
-
-
+                "iam:DeleteRole",
+                "iam:PutRolePolicy",
+                "iam:DeletePolicy",
+                "iam:UpdateAssumeRolePolicy",
+                "iam:CreatePolicyVersion"
             ],
             "Resource": [
                 "arn:aws:iam::${aws_caller_identity}:role/${project_id}-${environment}-*",
-                "arn:aws:iam::${aws_caller_identity}:policy/${project_id}-${environment}-*"
+                "arn:aws:iam::${aws_caller_identity}:policy/${project_id}-${environment}-*",
+                "arn:aws:iam::${aws_caller_identity}:policy/AmazonEKS_AWS_Load_Balancer_Controller-*"
             ]
-
         },
         {
             "Effect": "Allow",
             "Action": [
-                "iam:GetRole"
+                "iam:DeletePolicy"
+            ],
+            "Resource": "arn:aws:iam::${aws_caller_identity}:policy/ACMCertificateAccessPolicy"
+
+        },
+        
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetRole",
+                "iam:ListPolicyVersions"
             ],
             "Resource": "*"
 

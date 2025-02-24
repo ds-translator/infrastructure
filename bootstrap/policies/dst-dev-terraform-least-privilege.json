@@ -71,6 +71,7 @@
             "Action": [
                 "iam:CreateRole",
                 "iam:GetRole",
+                "iam:GetRolePolicy",
                 "iam:ListRolePolicies",
                 "iam:ListAttachedRolePolicies",
                 "iam:AttachRolePolicy",
