@@ -1,10 +1,10 @@
-output "oidc_provider_url" {
-  value = var.oidc_provider_url
-}
+# output "oidc_provider_url" {
+#   value = var.oidc_provider_url
+# }
 
-output "oidc_provider_arn" {
-  value = var.oidc_provider_arn
-}
+# output "oidc_provider_arn" {
+#   value = var.oidc_provider_arn
+# }
 
 # data "aws_eks_cluster_auth" "eks_cluster_auth" {
 #   name = var.cluster_name
@@ -34,10 +34,10 @@ data "aws_iam_policy_document" "eks_assume_role_policy" {
   }
 }
 
-# resource "aws_iam_role" "eks_service_account" {
-#   name               = "${var.project_id}-${var.environment}-eks-service-account-role"
-#   assume_role_policy = data.aws_iam_policy_document.eks_assume_role_policy.json
-# }
+resource "aws_iam_role" "eks_service_account" {
+  name               = "${var.project_id}-${var.environment}-eks-service-account-role"
+  assume_role_policy = data.aws_iam_policy_document.eks_assume_role_policy.json
+}
 
 # resource "aws_iam_role_policy" "cloudwatch_logging" {
 #   name   = "${var.project_id}-${var.environment}-eks-cloud-watch-logging-policy"
