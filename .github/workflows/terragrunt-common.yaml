@@ -82,7 +82,7 @@ jobs:
           tf_version: ${{ inputs.tf_version }}
           tg_version: ${{ inputs.tg_version }}
           tg_dir: ${{ inputs.tg_dir }}
-          tg_command: 'run-all apply'
+          tg_command: 'run-all apply --terragrunt-log-level debug'
 
       - name: Execute Basic Cluster Functionality Tests
         if: ${{ inputs.deploy }}
