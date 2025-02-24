@@ -6,15 +6,15 @@
 #   value = var.oidc_provider_arn
 # }
 
-# data "aws_eks_cluster_auth" "eks_cluster_auth" {
-#   name = var.cluster_name
-# }
+data "aws_eks_cluster_auth" "eks_cluster_auth" {
+  name = var.cluster_name
+}
 
-# provider "kubernetes" {
-#   host                   = var.cluster_endpoint
-#   cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
-#   token                  = data.aws_eks_cluster_auth.eks_cluster_auth.token
-# }
+provider "kubernetes" {
+  host                   = var.cluster_endpoint
+  cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
+  token                  = data.aws_eks_cluster_auth.eks_cluster_auth.token
+}
 
 data "aws_iam_policy_document" "eks_assume_role_policy" {
   statement {
@@ -59,14 +59,14 @@ resource "aws_iam_role_policy" "cloudwatch_logging" {
   })
 }
 
-# resource "kubernetes_service_account" "cloudwatch_agent" {
-#   metadata {
-#     name      = "cloudwatch-agent"
-#     namespace = var.environment
+resource "kubernetes_service_account" "cloudwatch_agent" {
+  metadata {
+    name      = "cloudwatch-agent"
+    namespace = var.environment
 
-#     annotations = {
-#       "eks.amazonaws.com/role-arn" = aws_iam_role.eks_service_account.arn
-#     }
-#   }
-# }
+    annotations = {
+      "eks.amazonaws.com/role-arn" = aws_iam_role.eks_service_account.arn
+    }
+  }
+}
 
