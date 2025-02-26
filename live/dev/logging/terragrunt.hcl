@@ -26,9 +26,7 @@ dependency "eks-cluster" {
     cluster_name                        = "dst-dev-cluster"
     cluster_endpoint                    = "https://EXAMPLE.gr7.us-west-2.eks.amazonaws.com"
     cluster_token                       = "dummy-token-12345"
-    cluster_certificate_authority_data  = <<EOF
------BEGIN CERTIFICATE-----
-c2pkbmFrc2R2bmtqc2ZkdnNkZmJhc2R2YXNmdnNkZmJ2c2RmYnNkZmJzZGZic2RmYmRzZmI=
+    cluster_certificate_authority_data  = "c2pkbmFrc2R2bmtqc2ZkdnNkZmJhc2R2YXNmdnNkZmJ2c2RmYnNkZmJzZGZic2RmYmRzZmI="
 -----END CERTIFICATE-----
 EOF
     oidc_provider_arn                  = "arn:aws:iam::123456789012:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/EXAMPLE"
