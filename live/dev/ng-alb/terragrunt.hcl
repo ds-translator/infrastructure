@@ -51,7 +51,7 @@ inputs = {
   taint = {
     key = "dedicated"
     value = "alb"
-    effect = "NoSchedule"
+    effect = "NO_SCHEDULE"
   }
 
 }

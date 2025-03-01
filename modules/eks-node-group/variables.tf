@@ -107,4 +107,9 @@ variable "taint" {
     value  = string
     effect = string
   })
+  default = {
+    key    = ""
+    value  = ""
+    effect = ""
+  }
 }
