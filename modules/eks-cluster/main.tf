@@ -52,6 +52,13 @@ module "eks" {
       }      
     }
 
+  node_security_group_tags = merge(local.tags, {
+      # NOTE - if creating multiple security groups with this module, only tag the
+      # security group that Karpenter should utilize with the following tag
+      # (i.e. - at most, only one security group should have this tag in your account)
+      "karpenter.sh/discovery" = "${var.project_id}-${var.environment}-cluster"
+    })
+
   tags = {
     Environment = var.environment
     Project     = var.project_name
