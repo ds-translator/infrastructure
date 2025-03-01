@@ -84,8 +84,3 @@ variable "cluster_name" {
 #   default     = "HTTP"
 # }
 
-# variable "health_check_path" {
-#   description = "The URL path on which to perform health checks on the targets."
-#   type        = string
-#   default     = "/"
-# }
