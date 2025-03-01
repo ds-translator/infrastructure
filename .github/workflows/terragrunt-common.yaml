@@ -106,3 +106,12 @@ jobs:
           else
             echo "All essential pods in kube-system are Running."
           fi
+
+      - name: Destroy the Environment
+        if: ${{ inputs.destroy }}
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ inputs.tf_version }}
+          tg_version: ${{ inputs.tg_version }}
+          tg_dir: ${{ inputs.tg_dir }}
+          tg_command: 'run-all destroy'
