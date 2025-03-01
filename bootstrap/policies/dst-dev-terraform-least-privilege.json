@@ -316,6 +316,12 @@
                 "kms:CreateKey"
             ],
             "Resource": "*"
+        },
+        {    
+            "Sid": "AllowPassRoleForCloudWatchObservability",
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::${aws_caller_identity}:role/AmazonEKSCloudWatchObservabilityRole"
         }
     ]
 }
