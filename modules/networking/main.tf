@@ -66,6 +66,8 @@ resource "aws_subnet" "private" {
   tags = {
     Name        = "${var.project_id}-${var.environment}-private-subnet-${count.index + 1}"
     Environment = var.environment
+    "karpenter.sh/discovery" = "${var.project_id}-${var.environment}-cluster"    
+
   }
 }
 
