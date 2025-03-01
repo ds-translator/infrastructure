@@ -37,7 +37,7 @@ inputs = {
   
   node_group_name  = "karpenter"
   subnet_ids       = dependency.networking.outputs.private_subnets
-  desired_size     = 2
+  desired_size     = 1
   min_size         = 1
   max_size         = 1
   instance_types   = ["t2.micro"]
