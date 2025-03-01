@@ -134,6 +134,7 @@
         "eks:CreateAddon",
         "eks:DescribeAddon",
         "eks:DescribeAddonVersions",
+        "eks:DeleteAddon",
         "eks:DescribeCluster"
       ],
       "Resource": "*"
@@ -150,7 +151,8 @@
         "iam:CreateInstanceProfile",
         "iam:GetInstanceProfile",
         "iam:DeleteInstanceProfile",
-        "iam:AddRoleToInstanceProfile"
+        "iam:AddRoleToInstanceProfile",
+        "iam:RemoveRoleFromInstanceProfile"
       ],
       "Resource": "arn:aws:iam::${aws_caller_identity}:instance-profile/${project_id}-${environment}-*"
     }
