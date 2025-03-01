@@ -94,3 +94,8 @@ variable "extra_tags" {
 }
 
 
+variable "labels" {
+  type        = map(string)
+  description = "Kubernetes labels to apply to the EKS node group."
+  default     = {}
+}

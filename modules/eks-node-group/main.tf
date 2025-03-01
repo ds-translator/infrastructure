@@ -35,6 +35,8 @@ resource "aws_eks_node_group" "this" {
     max_unavailable = var.max_unavailable
   }
 
+  labels = var.labels
+
   tags = {
     "Environment" = var.environment,
     "Project"     = var.project_name

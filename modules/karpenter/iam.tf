@@ -21,7 +21,8 @@ resource "aws_iam_policy" "instance_profile_policy" {
           "ec2:DescribeVolumes",
           "ec2:DescribeVolumesModifications",
           "ec2:DescribeVpcs",
-          "eks:DescribeCluster"
+          "eks:DescribeCluster",
+          "ec2:DescribeSpotPriceHistory"
         ],
         "Resource" : "*"
       },
