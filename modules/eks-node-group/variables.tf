@@ -93,18 +93,4 @@ variable "extra_tags" {
   default     = {}
 }
 
-variable "enable_taints" {
-  description = "Set to true to add taints to the nodegroup"
-  type        = bool
-  default     = false
-}
 
-variable "node_taints" {
-  description = "List of taints to apply to the nodegroup"
-  type = list(object({
-    key    = string
-    value  = string
-    effect = string
-  }))
-  default = []  # e.g., [ { key = "karpenter", value = "true", effect = "NO_SCHEDULE" } ]
-}

@@ -35,15 +35,6 @@ resource "aws_eks_node_group" "this" {
     max_unavailable = var.max_unavailable
   }
 
-  dynamic "taints" {
-    for_each = var.enable_taints ? var.node_taints : []
-    content {
-      key    = taints.value.key
-      value  = taints.value.value
-      effect = taints.value.effect
-    }
-  }
-
   tags = {
     "Environment" = var.environment,
     "Project"     = var.project_name
