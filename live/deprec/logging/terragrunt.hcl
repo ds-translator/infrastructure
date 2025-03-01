@@ -53,5 +53,5 @@ inputs = {
   oidc_provider_arn = dependency.eks-cluster.outputs.oidc_provider_arn
   oidc_provider_url = dependency.eks-cluster.outputs.oidc_provider_url
   cluster_certificate_authority_data = dependency.eks-cluster.outputs.cluster_certificate_authority_data
-
+  
 }

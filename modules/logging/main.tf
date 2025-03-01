@@ -1,3 +1,7 @@
+provider "aws" {
+  region = var.region
+}
+
 resource "aws_eks_addon" "cloudwatch_observability" {
   addon_name   = "amazon-cloudwatch-observability"
   cluster_name = var.cluster_name
