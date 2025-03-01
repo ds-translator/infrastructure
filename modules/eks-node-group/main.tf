@@ -19,6 +19,8 @@ resource "aws_eks_node_group" "this" {
     version = "$Latest"
   }
 
+  taint = var.taint
+
   instance_types = var.instance_types
   # disk_size      = var.disk_size
 
