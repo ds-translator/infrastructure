@@ -34,6 +34,10 @@ dependency "eks-cluster" {
 
 }
 
+dependency "alb" {
+  config_path = "../alb"
+}
+
 terraform {
   source = "../../../modules/logging///"
 }
