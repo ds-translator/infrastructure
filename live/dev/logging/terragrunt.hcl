@@ -36,6 +36,7 @@ dependency "eks-cluster" {
 
 dependency "alb" {
   config_path = "../alb"
+  skip_outputs = true
 }
 
 terraform {
