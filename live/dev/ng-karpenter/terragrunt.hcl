@@ -35,7 +35,7 @@ inputs = {
   node_role_arn    = dependency.security.outputs.node_role_arn
   cluster_name     = dependency.eks_cluster.outputs.cluster_name 
   
-  node_group_name  = "frontend"
+  node_group_name  = "karpenter"
   subnet_ids       = dependency.networking.outputs.private_subnets
   desired_size     = 2
   min_size         = 1
