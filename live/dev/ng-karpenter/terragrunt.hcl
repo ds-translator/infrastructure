@@ -46,13 +46,4 @@ inputs = {
   source_security_group_ids = []        
   max_unavailable  = 1
 
- # Enable taints and provide the taint details
-  enable_taints = true
-  node_taints = [
-    {
-      key    = "karpenter"
-      value  = "true"
-      effect = "NO_SCHEDULE"
-    }
-  ]  
 }
