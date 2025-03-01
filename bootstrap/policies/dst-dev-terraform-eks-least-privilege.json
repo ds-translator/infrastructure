@@ -157,7 +157,7 @@
         {
           "Effect": "Allow",
           "Action": ["iam:CreateInstanceProfile"],
-          "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:instance-profile/${project_id}-${environment}-*"
+          "Resource": "arn:aws:iam::${aws_caller_identity}:instance-profile/${project_id}-${environment}-*"
       }
     ]
 }
