@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_iam_instance_profile" "karpenter" {
   name = "${var.project_id}-${var.environment}-karpenter-controller-instance-profile"
   role = aws_iam_role.karpenter_profile_instance_role.name
@@ -182,6 +184,42 @@ resource "aws_iam_policy" "karpenter_controller" {
         Effect   = "Allow"
         Resource = "*"
       },
+      {
+              "Sid": "Allow access through EBS for all principals in the account that are authorized to use EBS",
+              "Effect": "Allow",
+              "Principal": {
+                  "AWS": "*"
+              },
+              "Action": [
+                  "kms:Encrypt",
+                  "kms:Decrypt",
+                  "kms:ReEncrypt*",
+                  "kms:GenerateDataKey*",
+                  "kms:CreateGrant",
+                  "kms:DescribeKey"
+              ],
+              "Resource": "*",
+              "Condition": {
+                  "StringEquals": {
+                  "kms:ViaService": "ec2.${var.region}.amazonaws.com",
+                  "kms:CallerAccount": "${data.aws_caller_identity.current.account_id}"
+                  }
+              }
+          },
+    {
+        "Sid": "Allow direct access to key metadata to the account",
+        "Effect": "Allow",
+        "Principal": {
+            "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        },
+        "Action": [
+            "kms:Describe*",
+            "kms:Get*",
+            "kms:List*",
+            "kms:RevokeGrant"
+        ],
+        "Resource": "*"
+    }                
     ]
   })
 }

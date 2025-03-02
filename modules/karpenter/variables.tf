@@ -11,10 +11,10 @@ variable "project_id" {
     type = string
 }
 
-# variable "region" {
-#   description = "The AWS region"
-#   type        = string
-# }
+variable "region" {
+  description = "The AWS region"
+  type        = string
+}
 
 # variable "vpc_id" {
 #   description = "The VPC in which to create the ALB."
