@@ -176,7 +176,8 @@ resource "aws_iam_policy" "karpenter_controller" {
           "iam:ListInstanceProfiles",
           "iam:TagInstanceProfile",
           "iam:UntagInstanceProfile",
-          "ec2:DescribeImages"
+          "ec2:DescribeImages",
+          "ec2:DescribeSpotPriceHistory"
         ]
         Effect   = "Allow"
         Resource = "*"
