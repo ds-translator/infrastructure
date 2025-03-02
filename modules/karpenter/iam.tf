@@ -186,9 +186,6 @@ resource "aws_iam_policy" "karpenter_controller" {
       },
       {
         Effect = "Allow",
-        Principal = {
-          "AWS" = "*"
-        },
         Action = [
           "kms:Encrypt",
           "kms:Decrypt",
