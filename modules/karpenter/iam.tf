@@ -175,7 +175,8 @@ resource "aws_iam_policy" "karpenter_controller" {
           "iam:RemoveRoleFromInstanceProfile",
           "iam:ListInstanceProfiles",
           "iam:TagInstanceProfile",
-          "iam:UntagInstanceProfile"
+          "iam:UntagInstanceProfile",
+          "ec2:DescribeImages"
         ]
         Effect   = "Allow"
         Resource = "*"
