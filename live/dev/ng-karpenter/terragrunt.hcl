@@ -48,4 +48,9 @@ inputs = {
   labels           = {
     "karpenter.sh/controller" = "true"
   }
+    taint = {
+    key = "dedicated"
+    value = "karpenter"
+    effect = "NO_SCHEDULE"
+  }
 }

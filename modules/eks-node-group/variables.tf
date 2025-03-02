@@ -101,15 +101,7 @@ variable "labels" {
 }
 
 variable "taint" {
-  description = "A map representing a single node taint"
-  type = object({
-    key    = string
-    value  = string
-    effect = string
-  })
-  default = {
-    key    = ""
-    value  = ""
-    effect = ""
-  }
+  type        = map(string)
+  description = "Kubernetes taint to apply to the EKS node group."
+  default     = {}
 }
