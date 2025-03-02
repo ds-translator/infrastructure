@@ -61,7 +61,8 @@
         "eks:DescribeNodegroup",
         "eks:DeleteNodegroup",
         "eks:UpdateNodegroupVersion",
-        "eks:DescribeUpdate"
+        "eks:DescribeUpdate",
+        "eks:UpdateNodegroupConfig"
       ],
       "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:nodegroup/*/${project_id}-${environment}-eks-ng-*/*"
     },
