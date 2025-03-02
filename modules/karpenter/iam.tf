@@ -1,5 +1,5 @@
 resource "aws_iam_instance_profile" "karpenter" {
-  name = "${var.project_id}-${var.environment}-karpenter-controller"
+  name = "${var.project_id}-${var.environment}-karpenter-controller-instance-profile"
   role = aws_iam_role.karpenter_profile_instance_role.name
 }
 
