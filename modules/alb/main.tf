@@ -123,7 +123,8 @@ resource "helm_release" "alb-controller" {
 
   set {
     name  = "nodeSelector.alb-controller"
-    value = "'true'"
+    type  = "string"    
+    value = "true"
   }
 
   set {
