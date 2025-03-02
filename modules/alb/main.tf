@@ -121,25 +121,25 @@ resource "helm_release" "alb-controller" {
     value = var.cluster_name
   }
 
-  set {
-    name  = "nodeSelector.alb-controller"
-    type  = "string"    
-    value = "true"
-  }
+  # set {
+  #   name  = "nodeSelector.alb-controller"
+  #   type  = "string"    
+  #   value = "true"
+  # }
 
-  set {
-    name  = "tolerations[0].key"
-    value = "dedicated"
-  }
+  # set {
+  #   name  = "tolerations[0].key"
+  #   value = "dedicated"
+  # }
 
-  set {
-    name  = "tolerations[0].value"
-    value = "alb"
-  }
+  # set {
+  #   name  = "tolerations[0].value"
+  #   value = "alb"
+  # }
 
-  set {
-    name  = "tolerations[0].effect"
-    value = "NoSchedule"
-  }
+  # set {
+  #   name  = "tolerations[0].effect"
+  #   value = "NoSchedule"
+  # }
 
 }
