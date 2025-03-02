@@ -169,7 +169,13 @@ resource "aws_iam_policy" "karpenter_controller" {
           "pricing:GetProducts",
           "eks:DescribeCluster",
           "iam:GetInstanceProfile",
-          "iam:CreateInstanceProfile"
+          "iam:CreateInstanceProfile",
+          "iam:DeleteInstanceProfile",
+          "iam:AddRoleToInstanceProfile",
+          "iam:RemoveRoleFromInstanceProfile",
+          "iam:ListInstanceProfiles",
+          "iam:TagInstanceProfile",
+          "iam:UntagInstanceProfile"
         ]
         Effect   = "Allow"
         Resource = "*"
