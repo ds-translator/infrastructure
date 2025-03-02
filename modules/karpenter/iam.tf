@@ -167,7 +167,8 @@ resource "aws_iam_policy" "karpenter_controller" {
           "ec2:DescribeAvailabilityZones",
           "ssm:GetParameter",
           "pricing:GetProducts",
-          "eks:DescribeCluster"
+          "eks:DescribeCluster",
+          "iam:GetInstanceProfile"
         ]
         Effect   = "Allow"
         Resource = "*"
