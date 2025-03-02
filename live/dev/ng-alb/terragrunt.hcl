@@ -45,13 +45,13 @@ inputs = {
   ec2_ssh_key      = ""                
   source_security_group_ids = []        
   max_unavailable  = 1
-  labels           = {
-    "alb-controller" = "true"
-  }  
-  taint = {
-    key = "dedicated"
-    value = "alb"
-    effect = "NO_SCHEDULE"
-  }
+  # labels           = {
+  #   "alb-controller" = "true"
+  # }  
+  # taint = {
+  #   key = "dedicated"
+  #   value = "alb"
+  #   effect = "NO_SCHEDULE"
+  # }
 
 }

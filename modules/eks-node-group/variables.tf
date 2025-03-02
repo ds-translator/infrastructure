@@ -94,14 +94,3 @@ variable "extra_tags" {
 }
 
 
-variable "labels" {
-  type        = map(string)
-  description = "Kubernetes labels to apply to the EKS node group."
-  default     = {}
-}
-
-variable "taint" {
-  type        = map(string)
-  description = "Kubernetes taint to apply to the EKS node group."
-  default     = {}
-}

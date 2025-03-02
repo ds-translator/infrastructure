@@ -45,12 +45,5 @@ inputs = {
   ec2_ssh_key      = ""                
   source_security_group_ids = []        
   max_unavailable  = 1
-  labels           = {
-    "karpenter.sh/controller" = "true"
-  }
-    taint = {
-    key = "dedicated"
-    value = "karpenter"
-    effect = "NO_SCHEDULE"
-  }
+
 }
