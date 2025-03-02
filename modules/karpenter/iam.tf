@@ -168,7 +168,8 @@ resource "aws_iam_policy" "karpenter_controller" {
           "ssm:GetParameter",
           "pricing:GetProducts",
           "eks:DescribeCluster",
-          "iam:GetInstanceProfile"
+          "iam:GetInstanceProfile",
+          "iam:CreateInstanceProfile"
         ]
         Effect   = "Allow"
         Resource = "*"
