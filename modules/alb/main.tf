@@ -121,9 +121,9 @@ resource "helm_release" "alb-controller" {
     value = var.cluster_name
   }
 
-  set_string {
+  set {
     name  = "nodeSelector.alb-controller"
-    value = "true"
+    value = "'true'"
   }
 
   set {
