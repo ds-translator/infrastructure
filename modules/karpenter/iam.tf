@@ -183,37 +183,6 @@ resource "aws_iam_policy" "karpenter_controller" {
         ]
         Effect   = "Allow",
         Resource = "*"
-      },
-      {
-        Effect = "Allow",
-        Action = [
-          "kms:Encrypt",
-          "kms:Decrypt",
-          "kms:ReEncrypt*",
-          "kms:GenerateDataKey*",
-          "kms:CreateGrant",
-          "kms:DescribeKey"
-        ],
-        Resource = "*",
-        Condition = {
-          StringEquals = {
-            "kms:ViaService" = "ec2.${var.region}.amazonaws.com",
-            "kms:CallerAccount" = "${data.aws_caller_identity.current.account_id}"
-          }
-        }
-      },
-      {
-        Effect = "Allow",
-        Principal = {
-          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
-        },
-        Action = [
-          "kms:Describe*",
-          "kms:Get*",
-          "kms:List*",
-          "kms:RevokeGrant"
-        ],
-        Resource = "*"
       }
     ]
   })
