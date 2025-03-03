@@ -21,8 +21,7 @@ resource "aws_eks_node_group" "this" {
 
   instance_types = var.instance_types
 
-  ami_type = var.ami_type
-  # disk_size      = var.disk_size
+  ami_type  = var.ami_type
 
   # (Optional) Enable remote access for SSH into worker nodes.
   #   dynamic "remote_access" {

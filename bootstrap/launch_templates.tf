@@ -21,6 +21,14 @@ resource "aws_launch_template" "custom_gpu_template" {
   name = "${var.project_id}-eks-node-template-gpu"
 
 
+  block_device_mappings {
+    device_name = "/dev/sdf"
+
+    ebs {
+      volume_size = 80
+    }
+  }
+
 #   block_device_mappings {
 #     device_name = "/dev/xvda" # Adjust if your AMI uses a different device name
 #     ebs {

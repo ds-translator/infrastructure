@@ -39,11 +39,11 @@ inputs = {
   
   node_group_name  = "gpu"
   subnet_ids       = dependency.networking.outputs.private_subnets
-  desired_size     = 2
+  desired_size     = 1
   min_size         = 1
   max_size         = 3
-  instance_types   = ["t3.medium"]
-  disk_size        = 100
+  instance_types   = ["t3.xlarge"]
+  
   ec2_ssh_key      = ""                
   source_security_group_ids = []        
   max_unavailable  = 1
