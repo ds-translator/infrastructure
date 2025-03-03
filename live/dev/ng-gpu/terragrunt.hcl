@@ -48,4 +48,9 @@ inputs = {
   source_security_group_ids = []        
   max_unavailable  = 1
 
+  labels = {
+    "gpu"  = "true"
+    "role" = "ai"
+  }
+
 }

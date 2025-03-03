@@ -53,5 +53,9 @@ inputs = {
   #   value = "alb"
   #   effect = "NO_SCHEDULE"
   # }
+  labels = {
+    "alb-controller"  = "true"
+    "role" = "load-balancer"
+  }
 
 }

@@ -93,4 +93,8 @@ variable "extra_tags" {
   default     = {}
 }
 
-
+variable "labels" {
+  type        = map(string)
+  description = "Labels to assign to the resource"
+  default     = {}
+}
