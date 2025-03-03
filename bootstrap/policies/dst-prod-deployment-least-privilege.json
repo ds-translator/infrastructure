@@ -34,10 +34,7 @@
         "eks:TagResource",
         "eks:DescribeUpdate"
       ],
-      "Resource": [
-        "arn:aws:eks:${aws_region}:${aws_caller_identity}:cluster/${project_id}-${environment}-cluster",
-        "arn:aws:eks:${aws_region}:${aws_caller_identity}:cluster/${project_id}-*-cluster"
-      ]
+      "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:cluster/${project_id}-${environment}-cluster"
     },
     {
       "Effect": "Allow",
@@ -45,9 +42,9 @@
       "Resource": "arn:aws:route53:::hostedzone/Z070261916V9EDMTXGKYY"
     },
     {
-      "Effect": "Allow",
-      "Action": ["route53:GetChange"],
-      "Resource": "arn:aws:route53:::change/*"
+        "Effect": "Allow",
+        "Action": ["route53:GetChange"],
+        "Resource": "arn:aws:route53:::change/*"
     }
   ]
 }

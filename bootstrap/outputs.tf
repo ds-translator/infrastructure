@@ -8,9 +8,14 @@ output "infrastructure_roles" {
   value       = { for env, role in aws_iam_role.github_actions_infrastructure_role : env => role.arn }
 }
 
-output "infrastructure_policies" {
-  description = "ARNs of the infrastructure policies by environment"
-  value       = { for env, policy in aws_iam_policy.github_actions_infrastructure_policy : env => policy.arn }
+output "infrastructure_base_policies" {
+  description = "ARNs of the infrastructure base policies by environment"
+  value       = { for env, policy in aws_iam_policy.github_actions_infrastructure_base_policy : env => policy.arn }
+}
+
+output "infrastructure_eks_policies" {
+  description = "ARNs of the infrastructure EKS policies by environment"
+  value       = { for env, policy in aws_iam_policy.github_actions_infrastructure_eks_policy : env => policy.arn }
 }
 
 output "deployment_roles" {

@@ -25,10 +25,18 @@ on:
       tg_version:
         required: true
         type: string
+      plan:
+        required: false
+        type: boolean
+        default: false        
       deploy:
         required: false
         type: boolean
         default: false
+      destroy:
+        required: false
+        type: boolean
+        default: false        
 
 jobs:
   terragrunt:
@@ -68,6 +76,16 @@ jobs:
       #     tg_command: 'run-all validate --queue-exclude-dir=alb'
 
       - name: Generate Terraform Plan
+        if: ${{ inputs.plan }}
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ inputs.tf_version }}
+          tg_version: ${{ inputs.tg_version }}
+          tg_dir: ${{ inputs.tg_dir }}
+          tg_command: 'run-all plan --terragrunt-exclude-dir alb'
+
+      - name: Generate Terraform Plan Before Deploy
+        if: ${{ inputs.deploy }}
         uses: gruntwork-io/terragrunt-action@v2
         with:
           tf_version: ${{ inputs.tf_version }}
@@ -82,7 +100,7 @@ jobs:
           tf_version: ${{ inputs.tf_version }}
           tg_version: ${{ inputs.tg_version }}
           tg_dir: ${{ inputs.tg_dir }}
-          tg_command: 'run-all apply'
+          tg_command: 'run-all apply --terragrunt-log-level debug'
 
       - name: Execute Basic Cluster Functionality Tests
         if: ${{ inputs.deploy }}
@@ -106,3 +124,12 @@ jobs:
           else
             echo "All essential pods in kube-system are Running."
           fi
+
+      - name: Destroy the Environment
+        if: ${{ inputs.destroy }}
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ inputs.tf_version }}
+          tg_version: ${{ inputs.tg_version }}
+          tg_dir: ${{ inputs.tg_dir }}
+          tg_command: 'run-all destroy'

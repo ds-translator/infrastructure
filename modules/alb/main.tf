@@ -1,7 +1,7 @@
 provider "aws" {
   region = var.region
 }
- 
+
 data "aws_caller_identity" "current" {}
 
 module "lb_role" {
@@ -9,7 +9,7 @@ module "lb_role" {
 
   role_name                              = "${var.project_id}-${var.environment}-eks-alb-role"
   attach_load_balancer_controller_policy = true
-  allow_self_assume_role = true
+  allow_self_assume_role                 = true
 
   oidc_providers = {
     main = {
@@ -22,12 +22,12 @@ module "lb_role" {
 resource "aws_iam_policy" "acm_policy" {
   name = "${var.project_id}-${var.environment}-eks-alb-certificate-access-policy"
   policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [
       {
-        Sid      = "AllowACMCertificateAccess"
-        Effect   = "Allow"
-        Action   = [
+        Sid    = "AllowACMCertificateAccess"
+        Effect = "Allow"
+        Action = [
           "acm:DescribeCertificate",
           "acm:GetCertificate",
           "acm:ListCertificates",
@@ -120,4 +120,26 @@ resource "helm_release" "alb-controller" {
     name  = "clusterName"
     value = var.cluster_name
   }
+
+  # set {
+  #   name  = "nodeSelector.alb-controller"
+  #   type  = "string"    
+  #   value = "true"
+  # }
+
+  # set {
+  #   name  = "tolerations[0].key"
+  #   value = "dedicated"
+  # }
+
+  # set {
+  #   name  = "tolerations[0].value"
+  #   value = "alb"
+  # }
+
+  # set {
+  #   name  = "tolerations[0].effect"
+  #   value = "NoSchedule"
+  # }
+
 }

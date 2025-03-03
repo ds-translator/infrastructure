@@ -13,6 +13,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   develop:
     if: github.ref == 'refs/heads/develop'
@@ -24,7 +28,9 @@ jobs:
       aws_caller_identity: '707809188586'
       tf_version: '1.10.5'
       tg_version: '0.67.0'
+      plan: ${{ contains(github.event.head_commit.message, '[plan]') }}
       deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
+      destroy: ${{ contains(github.event.head_commit.message, '[destroy]') }}
 
   staging:
     if: github.ref == 'refs/heads/release'    
@@ -36,7 +42,9 @@ jobs:
       aws_caller_identity: '707809188586'
       tf_version: '1.10.5'
       tg_version: '0.67.0'
+      plan: ${{ contains(github.event.head_commit.message, '[plan]') }}
       deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
+      destroy: ${{ contains(github.event.head_commit.message, '[destroy]') }}
 
   production:
     if: github.ref == 'refs/heads/main'      
@@ -48,4 +56,6 @@ jobs:
       aws_caller_identity: '707809188586'
       tf_version: '1.10.5'
       tg_version: '0.67.0'
+      plan: ${{ contains(github.event.head_commit.message, '[plan]') }}
       deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
+      destroy: ${{ contains(github.event.head_commit.message, '[destroy]') }}

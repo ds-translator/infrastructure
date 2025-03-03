@@ -1,0 +1,186 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketVersioning",
+                "s3:GetEncryptionConfiguration",
+                "s3:GetBucketPolicy",
+                "s3:GetBucketPublicAccessBlock",
+                "s3:CreateBucket",
+                "s3:PutBucketPolicy",
+                "s3:PutBucketVersioning",
+                "s3:PutEncryptionConfiguration"
+            ],
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:DescribeTable",
+                "dynamodb:PutItem",
+                "dynamodb:GetItem",
+                "dynamodb:DeleteItem"
+            ],
+            "Resource": "arn:aws:dynamodb:${aws_region}:${aws_caller_identity}:table/${terraform_locks_table}"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateVpc",
+                "ec2:ModifyVpcAttribute",
+                "ec2:DescribeVpcAttribute"
+            ],
+            "Resource": "arn:aws:ec2:${aws_region}:${aws_caller_identity}:vpc/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateLaunchTemplate"
+            ],
+            "Resource": "arn:aws:ec2:${aws_region}:${aws_caller_identity}:launch-template/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateRole",
+                "iam:GetRole",
+                "iam:GetRolePolicy",
+                "iam:DeleteRolePolicy",
+                "iam:ListRolePolicies",
+                "iam:ListAttachedRolePolicies",
+                "iam:AttachRolePolicy",
+                "iam:DetachRolePolicy",
+                "iam:TagRole",
+                "iam:TagPolicy",
+                "iam:TagRolePolicy",
+                "iam:PassRole",
+                "iam:ListInstanceProfilesForRole",
+                "iam:DeleteRole",
+                "iam:PutRolePolicy",
+                "iam:DeletePolicy",
+                "iam:UpdateAssumeRolePolicy",
+                "iam:CreatePolicyVersion"
+            ],
+            "Resource": [
+                "arn:aws:iam::${aws_caller_identity}:role/${project_id}-${environment}-*",
+                "arn:aws:iam::${aws_caller_identity}:policy/${project_id}-${environment}-*",
+                "arn:aws:iam::${aws_caller_identity}:policy/AmazonEKS_AWS_Load_Balancer_Controller-*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:DeletePolicy"
+            ],
+            "Resource": "arn:aws:iam::${aws_caller_identity}:policy/ACMCertificateAccessPolicy"
+
+        },
+        
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetRole",
+                "iam:ListPolicyVersions"
+            ],
+            "Resource": "*"
+
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateSubnet"
+            ],
+            "Resource": [
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:subnet/*",
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:vpc/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateInternetGateway"
+            ],
+            "Resource": "arn:aws:ec2:${aws_region}:${aws_caller_identity}:internet-gateway/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:AttachInternetGateway"
+            ],
+            "Resource": [
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:internet-gateway/*",
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:vpc/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:ModifySubnetAttribute"
+            ],
+            "Resource": "arn:aws:ec2:${aws_region}:${aws_caller_identity}:subnet/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateRouteTable"
+            ],
+            "Resource": [
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:route-table/*",
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:vpc/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateRoute",
+                "ec2:AssociateRouteTable"
+            ],
+            "Resource": "arn:aws:ec2:${aws_region}:${aws_caller_identity}:route-table/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:AllocateAddress"
+            ],
+            "Resource": "arn:aws:ec2:${aws_region}:${aws_caller_identity}:elastic-ip/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateNatGateway"
+            ],
+            "Resource": [
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:natgateway/*",
+                "arn:aws:ec2:${aws_region}:${aws_caller_identity}:subnet/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:ListMultipartUploadParts",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/*/terraform.tfstate"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::${terraform_state_bucket}/${environment}/security/terraform.tfstate"
+        },        
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:PassRole"
+            ],
+            "Resource": "arn:aws:iam::${aws_caller_identity}:role/${project_id}-${environment}-eks-role"
+        }
+    ]
+}
