@@ -53,6 +53,11 @@ inputs = {
   #   value = "alb"
   #   effect = "NO_SCHEDULE"
   # }
+
+  launch_template = "${var.project_id}-eks-node-template"
+
+  ami_type = "AL2_x86_64_GPU"
+
   labels = {
     "alb-controller"  = "true"
     "role" = "load-balancer"

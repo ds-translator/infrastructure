@@ -15,11 +15,13 @@ resource "aws_eks_node_group" "this" {
   }
 
   launch_template {
-    name    = "${var.project_id}-eks-node-template"
+    name    = var.launch_template
     version = "$Latest"
   }
 
   instance_types = var.instance_types
+
+  ami_type = var.ami_type
   # disk_size      = var.disk_size
 
   # (Optional) Enable remote access for SSH into worker nodes.

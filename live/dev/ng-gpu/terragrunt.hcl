@@ -43,10 +43,14 @@ inputs = {
   min_size         = 1
   max_size         = 3
   instance_types   = ["t3.medium"]
-  disk_size        = 20
+  disk_size        = 100
   ec2_ssh_key      = ""                
   source_security_group_ids = []        
   max_unavailable  = 1
+
+  launch_template = "${var.project_id}-eks-node-template-gpu"
+
+  ami_type = "AL2_x86_64_GPU"
 
   labels = {
     "gpu"  = "true"
