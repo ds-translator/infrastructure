@@ -46,9 +46,9 @@ inputs = {
   source_security_group_ids = []        
   max_unavailable  = 1
 
-  launch_template = "${var.project_id}-eks-node-template"
+  launch_template = "dst-eks-node-template"
 
-  ami_type = "AL2_x86_64_GPU"
+  ami_type = "AL2_x86_64"
 
   labels = {
     "frontend"  = "true"

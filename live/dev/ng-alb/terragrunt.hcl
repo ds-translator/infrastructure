@@ -54,9 +54,9 @@ inputs = {
   #   effect = "NO_SCHEDULE"
   # }
 
-  launch_template = "${var.project_id}-eks-node-template"
+  launch_template = "dst-eks-node-template"
 
-  ami_type = "AL2_x86_64_GPU"
+  ami_type = "AL2_x86_64"
 
   labels = {
     "alb-controller"  = "true"
