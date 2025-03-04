@@ -39,8 +39,8 @@ inputs = {
   
   node_group_name  = "gpu"
   subnet_ids       = dependency.networking.outputs.private_subnets
-  desired_size     = 1
-  min_size         = 1
+  desired_size     = 2
+  min_size         = 2
   max_size         = 3
   instance_types   = ["t3.xlarge"]
   
