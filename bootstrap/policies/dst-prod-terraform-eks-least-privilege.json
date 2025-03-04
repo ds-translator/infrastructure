@@ -61,7 +61,8 @@
           "eks:DescribeNodegroup",
           "eks:DeleteNodegroup",
           "eks:UpdateNodegroupVersion",
-          "eks:DescribeUpdate"
+          "eks:DescribeUpdate",
+          "eks:UpdateNodegroupConfig"
         ],
         "Resource": "arn:aws:eks:${aws_region}:${aws_caller_identity}:nodegroup/*/${project_id}-${environment}-eks-ng-*/*"
       },
@@ -134,6 +135,7 @@
           "eks:CreateAddon",
           "eks:DescribeAddon",
           "eks:DescribeAddonVersions",
+          "eks:DeleteAddon",
           "eks:DescribeCluster"
         ],
         "Resource": "*"
@@ -150,7 +152,8 @@
           "iam:CreateInstanceProfile",
           "iam:GetInstanceProfile",
           "iam:DeleteInstanceProfile",
-          "iam:AddRoleToInstanceProfile"
+          "iam:AddRoleToInstanceProfile",
+          "iam:RemoveRoleFromInstanceProfile"
         ],
         "Resource": "arn:aws:iam::${aws_caller_identity}:instance-profile/${project_id}-${environment}-*"
       }

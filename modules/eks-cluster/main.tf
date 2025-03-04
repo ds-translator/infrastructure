@@ -4,6 +4,21 @@ provider "aws" {
 
 data "aws_caller_identity" "current" {}
 
+# module "ebs_csi_irsa_role" {
+#   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+
+#   role_name             = "${var.project_id}-${var.environment}-cluster-ebs-csi"
+#   attach_ebs_csi_policy = true
+
+#   oidc_providers = {
+#     ex = {
+#       provider_arn               = module.eks.oidc_provider_arn
+#       namespace_service_accounts = ["kube-system:ebs-csi-controller-sa"]
+#     }
+#   }
+# }
+
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.31"
@@ -24,6 +39,10 @@ module "eks" {
 
   vpc_id     = var.vpc_id
   subnet_ids = var.subnet_ids
+
+  cluster_addons = {
+
+  }
 
   access_entries = {
       super-admin = {

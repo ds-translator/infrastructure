@@ -24,7 +24,7 @@ dependency "eks_cluster" {
 
   mock_outputs = {
     cluster_name = "dst-dev-cluster"
-  }
+  } 
 }
 
 terraform {
@@ -45,4 +45,14 @@ inputs = {
   ec2_ssh_key      = ""                
   source_security_group_ids = []        
   max_unavailable  = 1
+
+  launch_template = "dst-eks-node-template"
+
+  ami_type = "AL2_x86_64"
+
+  labels = {
+    "frontend"  = "true"
+    "role" = "default"
+  }
+
 }

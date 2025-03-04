@@ -15,12 +15,13 @@ resource "aws_eks_node_group" "this" {
   }
 
   launch_template {
-    name    = "${var.project_id}-eks-node-template"
+    name    = var.launch_template
     version = "$Latest"
   }
 
   instance_types = var.instance_types
-  # disk_size      = var.disk_size
+
+  ami_type  = var.ami_type
 
   # (Optional) Enable remote access for SSH into worker nodes.
   #   dynamic "remote_access" {
@@ -35,7 +36,7 @@ resource "aws_eks_node_group" "this" {
     max_unavailable = var.max_unavailable
   }
 
- 
+  labels = var.labels
 
   tags = {
     "Environment" = var.environment,

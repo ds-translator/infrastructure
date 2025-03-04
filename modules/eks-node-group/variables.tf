@@ -93,4 +93,18 @@ variable "extra_tags" {
   default     = {}
 }
 
+variable "labels" {
+  type        = map(string)
+  description = "Labels to assign to the resource"
+  default     = {}
+}
 
+variable "launch_template" {
+  type = string
+  description = "The launch template name for nodes of this group"
+}
+
+variable "ami_type" {
+  type = string
+  description = "The AMI type for the nodes"
+}

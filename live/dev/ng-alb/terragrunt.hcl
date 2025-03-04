@@ -54,4 +54,13 @@ inputs = {
   #   effect = "NO_SCHEDULE"
   # }
 
+  launch_template = "dst-eks-node-template"
+
+  ami_type = "AL2_x86_64"
+
+  labels = {
+    "alb-controller"  = "true"
+    "role" = "load-balancer"
+  }
+
 }
