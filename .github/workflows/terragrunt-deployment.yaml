@@ -58,4 +58,4 @@ jobs:
       tg_version: '0.67.0'
       plan: ${{ contains(github.event.head_commit.message, '[plan]') }}
       deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
-      destroy: ${{ contains(github.event.head_commit.message, '[destroy]') }}
+      # destroy: ${{ contains(github.event.head_commit.message, '[destroy]') }}
