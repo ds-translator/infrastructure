@@ -60,6 +60,6 @@ jobs:
       aws_caller_identity: '707809188586'
       tf_version: '1.10.5'
       tg_version: '0.67.0'
-      plan: ${{ contains(github.event.head_commit.message, '[plan]') }}
-      deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
+      # plan: ${{ contains(github.event.head_commit.message, '[plan]') }}
+      # deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
       # destroy: ${{ contains(github.event.head_commit.message, '[destroy]') }}
