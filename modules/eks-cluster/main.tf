@@ -4,19 +4,19 @@ provider "aws" {
 
 data "aws_caller_identity" "current" {}
 
-module "ebs_csi_irsa_role" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+# module "ebs_csi_irsa_role" {
+#   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
-  role_name             = "${var.project_id}-${var.environment}-cluster-ebs-csi"
-  attach_ebs_csi_policy = true
+#   role_name             = "${var.project_id}-${var.environment}-cluster-ebs-csi"
+#   attach_ebs_csi_policy = true
 
-  oidc_providers = {
-    ex = {
-      provider_arn               = module.eks.oidc_provider_arn
-      namespace_service_accounts = ["kube-system:ebs-csi-controller-sa"]
-    }
-  }
-}
+#   oidc_providers = {
+#     ex = {
+#       provider_arn               = module.eks.oidc_provider_arn
+#       namespace_service_accounts = ["kube-system:ebs-csi-controller-sa"]
+#     }
+#   }
+# }
 
 
 module "eks" {
