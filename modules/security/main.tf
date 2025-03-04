@@ -49,7 +49,7 @@ resource "aws_iam_role_policy_attachment" "node_cloud_watch_policy" {
 }
 
 resource "aws_iam_policy" "node_s3_policy" {
-  name = "${var.project_id}-${var.environment}-eks-s3-policy"
+  name = "${var.project_id}-${var.environment}-eks-node-s3-policy"
   policy = jsonencode({
     "Version": "2012-10-17",
     "Statement": [
