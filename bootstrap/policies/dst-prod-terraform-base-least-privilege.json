@@ -62,12 +62,14 @@
                 "iam:PutRolePolicy",
                 "iam:DeletePolicy",
                 "iam:UpdateAssumeRolePolicy",
-                "iam:CreatePolicyVersion"
+                "iam:CreatePolicyVersion",
+                "iam:DeletePolicyVersion"
             ],
             "Resource": [
                 "arn:aws:iam::${aws_caller_identity}:role/${project_id}-${environment}-*",
                 "arn:aws:iam::${aws_caller_identity}:policy/${project_id}-${environment}-*",
-                "arn:aws:iam::${aws_caller_identity}:policy/AmazonEKS_AWS_Load_Balancer_Controller-*"
+                "arn:aws:iam::${aws_caller_identity}:policy/AmazonEKS_AWS_Load_Balancer_Controller-*",
+                "arn:aws:iam::${aws_caller_identity}:policy/AmazonEKS*"
             ]
         },
         {
