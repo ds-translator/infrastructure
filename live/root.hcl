@@ -10,6 +10,7 @@ inputs = {
 locals {
   project_id = "dst"
 }
+
 remote_state {
   backend = "s3"
   config = {
