@@ -9,9 +9,8 @@ on:
     branches:
       - develop
       - release
-  pull_request:
-    branches:
       - main
+
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
