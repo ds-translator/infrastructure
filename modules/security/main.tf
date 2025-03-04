@@ -22,6 +22,8 @@ resource "aws_iam_role" "node_group_role" {
   }
 }
 
+
+
 # Attach the AmazonEKSWorkerNodePolicy to allow necessary EKS worker node actions.
 resource "aws_iam_role_policy_attachment" "node_worker_policy" {
   role       = aws_iam_role.node_group_role.name
@@ -44,4 +46,29 @@ resource "aws_iam_role_policy_attachment" "node_registry_policy" {
 resource "aws_iam_role_policy_attachment" "node_cloud_watch_policy" {
   role       = aws_iam_role.node_group_role.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+}
+
+resource "aws_iam_policy" "node_s3_policy" {
+  name = "${var.project_id}-${var.environment}-eks-s3-policy"
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": "arn:aws:s3:::dst-dev-test-bucket/*"
+        }
+    ]
+})
+}
+
+# Attach the S3 policy to allow access to S3.
+resource "aws_iam_role_policy_attachment" "node_s3_policy" {
+  role       = aws_iam_role.node_group_role.name
+  policy_arn = aws_iam_policy.node_s3_policy.arn
 }
