@@ -5,8 +5,6 @@ include {
 dependency "security" {
   config_path = "../security"
 
-  # mock_outputs_allowed_terraform_commands = ["validate"]
-
   mock_outputs = {
     node_role_name = "mock-eks-node-group-role"
     node_role_arn  = "arn:aws:iam::123456789012:role/mock-eks-node-group-role"
@@ -33,31 +31,36 @@ terraform {
   source = "../../../modules/eks-node-group///"
 }
 
-
-
 inputs = {
   node_role_arn    = dependency.security.outputs.node_role_arn
-  cluster_name     = dependency.eks_cluster.outputs.cluster_name
+  cluster_name     = dependency.eks_cluster.outputs.cluster_name 
   
-  node_group_name  = "gpu"
+  node_group_name  = "alb"
   subnet_ids       = dependency.networking.outputs.private_subnets
   desired_size     = 1
   min_size         = 1
   max_size         = 3
-  instance_types   = ["t3.xlarge"]
-  
+  instance_types   = ["t3.medium"]
+  disk_size        = 20
   ec2_ssh_key      = ""                
   source_security_group_ids = []        
   max_unavailable  = 1
+  # labels           = {
+  #   "alb-controller" = "true"
+  # }  
+  # taint = {
+  #   key = "dedicated"
+  #   value = "alb"
+  #   effect = "NO_SCHEDULE"
+  # }
 
-  launch_template = "dst-eks-node-template-gpu"
+  launch_template = "dst-eks-node-template"
 
-  ami_type = "AL2_x86_64_GPU"
+  ami_type = "AL2_x86_64"
 
   labels = {
-    "gpu"  = "true"
-    "role" = "ai"
+    "alb-controller"  = "true"
+    "role" = "load-balancer"
   }
 
 }
-
