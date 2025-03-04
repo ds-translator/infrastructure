@@ -37,7 +37,7 @@ inputs = {
   
   node_group_name  = "frontend"
   subnet_ids       = dependency.networking.outputs.private_subnets
-  desired_size     = 2
+  desired_size     = 1
   min_size         = 1
   max_size         = 3
   instance_types   = ["t3.medium"]
@@ -45,4 +45,14 @@ inputs = {
   ec2_ssh_key      = ""                
   source_security_group_ids = []        
   max_unavailable  = 1
+
+  launch_template = "dst-eks-node-template"
+
+  ami_type = "AL2_x86_64"
+
+  labels = {
+    "frontend"  = "true"
+    "role" = "default"
+  }
+
 }

@@ -35,7 +35,7 @@ inputs = {
   node_role_arn    = dependency.security.outputs.node_role_arn
   cluster_name     = dependency.eks_cluster.outputs.cluster_name 
   
-  node_group_name  = "frontend"
+  node_group_name  = "alb"
   subnet_ids       = dependency.networking.outputs.private_subnets
   desired_size     = 1
   min_size         = 1
@@ -45,14 +45,22 @@ inputs = {
   ec2_ssh_key      = ""                
   source_security_group_ids = []        
   max_unavailable  = 1
+  # labels           = {
+  #   "alb-controller" = "true"
+  # }  
+  # taint = {
+  #   key = "dedicated"
+  #   value = "alb"
+  #   effect = "NO_SCHEDULE"
+  # }
 
   launch_template = "dst-eks-node-template"
 
   ami_type = "AL2_x86_64"
 
   labels = {
-    "frontend"  = "true"
-    "role" = "default"
+    "alb-controller"  = "true"
+    "role" = "load-balancer"
   }
 
 }
