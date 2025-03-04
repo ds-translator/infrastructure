@@ -47,7 +47,11 @@ jobs:
       destroy: ${{ contains(github.event.head_commit.message, '[destroy]') }}
 
   production:
-    if: github.ref == 'refs/heads/main'      
+    if: >
+      github.event_name == 'push' && github.ref == 'refs/heads/main' ||
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'main'   
     uses: ./.github/workflows/terragrunt-common.yaml
     with:
       tg_dir: 'live/prod'
@@ -56,6 +60,6 @@ jobs:
       aws_caller_identity: '707809188586'
       tf_version: '1.10.5'
       tg_version: '0.67.0'
-      plan: ${{ contains(github.event.head_commit.message, '[plan]') }}
-      deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
+      # plan: ${{ contains(github.event.head_commit.message, '[plan]') }}
+      # deploy: ${{ contains(github.event.head_commit.message, '[deploy]') }}
       # destroy: ${{ contains(github.event.head_commit.message, '[destroy]') }}
