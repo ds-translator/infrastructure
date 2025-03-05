@@ -52,7 +52,11 @@ resource "aws_iam_role" "github_actions_deployment_role" {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com",
             # Adjust this condition as needed to restrict by repository and branch.
-            "token.actions.githubusercontent.com:sub" = "repo:${var.github_deployment_repo}:ref:refs/heads/develop"
+            # "token.actions.githubusercontent.com:sub" = "repo:${var.github_deployment_repo}:ref:refs/heads/${lookup(local.env_branch_map, each.key)}",
+            # "token.actions.githubusercontent.com:sub" = "repo:${var.github_deployment_repo}:ref:refs/heads/release"            
+          },
+          StringLike = {
+            "token.actions.githubusercontent.com:sub" = "repo:${var.github_deployment_repo}:ref:refs/heads/*"
           }
         }
       }
