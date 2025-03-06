@@ -77,36 +77,9 @@ resource "aws_iam_role_policy_attachment" "node_s3_policy" {
   policy_arn = aws_iam_policy.node_s3_policy.arn
 }
 
-
-resource "aws_iam_policy" "node_ebs_policy" {
-  name = "${var.project_id}-${var.environment}-eks-node-ebs-policy"
-  policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:AttachVolume",
-        "ec2:CreateSnapshot",
-        "ec2:CreateTags",
-        "ec2:CreateVolume",
-        "ec2:DeleteSnapshot",
-        "ec2:DeleteTags",
-        "ec2:DeleteVolume",
-        "ec2:DescribeInstances",
-        "ec2:DescribeSnapshots",
-        "ec2:DescribeTags",
-        "ec2:DescribeVolumes",
-        "ec2:DetachVolume"
-      ],
-      "Resource": "*"
-    }
-  ]
-})
-}
-
-# Attach the EBS policy to allow access to EBS.
+# Attach the AmazonEBSCSIDriverPolicy policy for accessing EBS.
 resource "aws_iam_role_policy_attachment" "node_ebs_policy" {
   role       = aws_iam_role.node_group_role.name
-  policy_arn = aws_iam_policy.node_ebs_policy.arn
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
+
