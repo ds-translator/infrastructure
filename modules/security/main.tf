@@ -76,3 +76,10 @@ resource "aws_iam_role_policy_attachment" "node_s3_policy" {
   role       = aws_iam_role.node_group_role.name
   policy_arn = aws_iam_policy.node_s3_policy.arn
 }
+
+# Attach the AmazonEBSCSIDriverPolicy policy for accessing EBS.
+resource "aws_iam_role_policy_attachment" "node_ebs_policy" {
+  role       = aws_iam_role.node_group_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+}
+
