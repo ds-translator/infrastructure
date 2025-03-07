@@ -3,6 +3,7 @@
 locals {
   project_id = "dst"
   region     = "us-east-1"
+  backup_region = "eu-west-3"
   state_bucket = "dst-terraform-states-1"
 }
 
@@ -11,6 +12,7 @@ inputs = {
   project_id = local.project_id
   environment = regex(".*/live/(?P<env>.*?)/.*", get_terragrunt_dir()).env
   region = local.region
+  backup_region = local.backup_region
   state_bucket = local.state_bucket
 }
 
