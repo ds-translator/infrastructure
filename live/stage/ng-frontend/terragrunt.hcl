@@ -32,27 +32,29 @@ terraform {
 }
 
 inputs = {
-  node_role_arn    = dependency.security.outputs.node_role_arn
-  cluster_name     = dependency.eks_cluster.outputs.cluster_name 
-  
-  node_group_name  = "frontend"
-  subnet_ids       = dependency.networking.outputs.private_subnets
+  node_role_arn   = dependency.security.outputs.node_role_arn
+  cluster_name    = dependency.eks_cluster.outputs.cluster_name 
+  subnet_ids      = dependency.networking.outputs.private_subnets
+
+  node_group_name  = "frontend"  
+  instance_types  = ["t3.medium"]
+
   desired_size     = 2
   min_size         = 2
   max_size         = 3
-  instance_types   = ["t3.medium"]
-  disk_size        = 20
-  ec2_ssh_key      = ""                
-  source_security_group_ids = []        
   max_unavailable  = 1
 
-  launch_template = "dst-eks-node-template"
+  disk_size        = 20
 
+  launch_template = "dst-eks-node-template"
   ami_type = "AL2_x86_64"
 
-  labels = {
-    "frontend"  = "true"
-    "role" = "default"
-  }
+  ec2_ssh_key      = ""                
 
+  source_security_group_ids = []        
+
+  labels = {
+    "frontend" = "true"
+    "role"     = "default"
+  }
 }
