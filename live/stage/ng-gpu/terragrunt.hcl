@@ -44,7 +44,7 @@ inputs = {
   desired_size     = 2
   min_size         = 2
   max_size         = 3
-  instance_types   = ["t3.medium"]
+  instance_types   = ["t3.xlarge"]
   
   ec2_ssh_key      = ""                
   source_security_group_ids = []        
